@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Davi Alves Personal | SaaS Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="{% static 'css/app.css' %}" rel="stylesheet">
+</head>
+<body class="marketing-body">
+  <header class="marketing-header">
+    <div class="container-fluid marketing-container">
+      <nav class="marketing-nav d-flex align-items-center justify-content-between gap-3">
+        <a href="/" class="brand-card text-decoration-none mb-0">
+          <img src="{% static 'branding/logo_davialves_personal.png' %}" alt="Logo Davi Alves" class="brand-logo">
+          <div>
+            <div class="brand-title">Davi Alves Personal</div>
+            <div class="brand-subtitle">SaaS para performance fisica</div>
+          </div>
+        </a>
+        <div class="d-flex align-items-center gap-2 gap-lg-3 flex-wrap justify-content-end">
+          <a href="#demo" class="btn btn-outline-primary btn-sm">Ver demo</a>
+          <a href="{% url 'public_pricing' %}" class="btn btn-primary btn-sm">Ver planos</a>
+          {% if sales_whatsapp_url %}<a href="{{ sales_whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-sm"><i class="bi bi-whatsapp me-2"></i>Falar com {{ sales_whatsapp_label }}</a>{% endif %}
+          <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-sm">Entrar</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="marketing-hero">
+      <div class="container-fluid marketing-container">
+        <div class="row align-items-center content-grid-tight">
+          <div class="col-xl-6">
+            <span class="list-chip">Site Demo</span>
+            <h1 class="marketing-title mt-3">Avalie a plataforma, veja o nivel da operacao e so depois escolha o plano certo para entrar.</h1>
+            <p class="marketing-copy">Um SaaS multi-tenant para personal trainers, estudios e pequenas equipes, com visual premium, dashboard comercial, avaliacao fisica, avaliacao postural e estrutura pronta para escala.</p>
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <a href="#demo" class="btn btn-primary">Explorar demo</a>
+              <a href="{% url 'public_pricing' %}" class="btn btn-outline-primary">Ir para planos</a>
+              {% if sales_whatsapp_url %}<a href="{{ sales_whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp">WhatsApp comercial</a>{% endif %}
+            </div>
+            <div class="row metric-grid-tight mt-4">
+              {% for metric in showcase_metrics %}
+                <div class="col-sm-4">
+                  <div class="metric-card h-100">
+                    <div class="metric-label">{{ metric.label }}</div>
+                    <div class="metric-value">{{ metric.value }}</div>
+                    <div class="metric-delta">{{ metric.helper }}</div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="marketing-display panel-card p-4">
+              <div class="marketing-screen">
+                <div class="marketing-screen__top d-flex justify-content-between align-items-center gap-3 mb-3">
+                  <div>
+                    <div class="metric-label mb-1">Painel demo</div>
+                    <div class="fw-bold">Visao operacional do personal</div>
+                  </div>
+                  <span class="data-pill">Demo navegavel visual</span>
+                </div>
+                <div class="row metric-grid-tight mb-3">
+                  <div class="col-6 col-md-3"><div class="metric-card"><div class="metric-label">Alunos</div><div class="metric-value fs-3">126</div><div class="metric-delta">base ativa</div></div></div>
+                  <div class="col-6 col-md-3"><div class="metric-card"><div class="metric-label">Avaliacoes</div><div class="metric-value fs-3">312</div><div class="metric-delta">historico</div></div></div>
+                  <div class="col-6 col-md-3"><div class="metric-card"><div class="metric-label">Retencao</div><div class="metric-value fs-3">92%</div><div class="metric-delta">engajamento</div></div></div>
+                  <div class="col-6 col-md-3"><div class="metric-card"><div class="metric-label">Meta</div><div class="metric-value fs-3">18</div><div class="metric-delta">em progresso</div></div></div>
+                </div>
+                <div class="row content-grid-tight align-items-stretch">
+                  <div class="col-lg-7">
+                    <div class="panel-card p-4 h-100">
+                      <div class="section-header section-header--tight mb-0">
+                        <div class="section-header__content">
+                          <h2 class="h5 fw-bold mb-0">Por que o demo convence</h2>
+                          <p class="section-copy mt-2">A navegacao foi pensada para mostrar rapidamente valor comercial e rotina real de atendimento.</p>
+                        </div>
+                      </div>
+                      <div class="mt-3 d-grid insight-stack">
+                        {% for item in feature_cards %}
+                          <div class="insight-item rounded-4 border bg-light-subtle">
+                            <div class="d-flex align-items-start gap-3">
+                              <div class="marketing-icon"><i class="bi {{ item.icon }}"></i></div>
+                              <div>
+                                <div class="fw-bold">{{ item.title }}</div>
+                                <div class="text-muted small mt-1">{{ item.description }}</div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-5">
+                    <div class="panel-card p-4 h-100">
+                      <div class="metric-label">Fluxo comercial</div>
+                      <div class="d-grid insight-stack mt-2">
+                        {% for step in journey_steps %}
+                          <div class="insight-item rounded-4 border bg-light-subtle">
+                            <div class="d-flex align-items-start gap-3">
+                              <span class="marketing-step">0{{ forloop.counter }}</span>
+                              <div class="small text-muted">{{ step }}</div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo" class="marketing-section">
+      <div class="container-fluid marketing-container">
+        <div class="section-header mb-4">
+          <div class="section-header__content">
+            <span class="list-chip">Demo guiado</span>
+            <h2 class="h1 fw-bold section-title">O visitante avalia primeiro a experiencia do produto.</h2>
+            <p class="section-copy">A landing destaca rotina operacional, visual do painel e clareza do fluxo de venda antes da decisao de compra.</p>
+          </div>
+          <a href="{% url 'public_pricing' %}" class="btn btn-primary">Gostei, ver planos</a>
+        </div>
+        <div class="row content-grid-tight">
+          <div class="col-lg-4">
+            <div class="panel-card p-4 h-100">
+              <div class="metric-label">Gestao de alunos</div>
+              <h3 class="h4 fw-bold mb-2">Listas, filtros e acompanhamento individual</h3>
+              <p class="section-copy">Cadastro, busca, status, objetivo e historico em uma interface escura consistente com alto valor percebido.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="panel-card p-4 h-100">
+              <div class="metric-label">Avaliacao profissional</div>
+              <h3 class="h4 fw-bold mb-2">Fisica e postural no mesmo ecossistema</h3>
+              <p class="section-copy">Campos estruturados para rotina de personal, com calculos de IMC, RCQ, gordura e espaco para evolucao dos protocolos.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="panel-card p-4 h-100">
+              <div class="metric-label">SaaS comercial</div>
+              <h3 class="h4 fw-bold mb-2">Arquitetura vendavel e preparada para escalar</h3>
+              <p class="section-copy">Tenant por cliente, area master, permissao por perfil e base pronta para migrar de SQLite para PostgreSQL sem retrabalho estrutural.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="marketing-section marketing-cta-section">
+      <div class="container-fluid marketing-container">
+        <div class="hero-panel">
+          <div class="row align-items-center content-grid-tight">
+            <div class="col-lg-8">
+              <span class="list-chip">Conversao</span>
+              <h2 class="h1 fw-bold mt-3 mb-0">Quando o visitante aprova o demo, ele segue para os planos e entra com acesso liberado apos a contratacao.</h2>
+              <p class="section-copy mt-3">O fluxo comercial fica claro: conhecer, comparar, contratar e acessar a operacao.</p>
+            </div>
+            <div class="col-lg-4">
+              <div class="d-grid gap-2">
+                <a href="{% url 'public_pricing' %}" class="btn btn-primary">Comparar planos</a>
+                {% if sales_whatsapp_url %}<a href="{{ sales_whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp">Falar no WhatsApp</a>{% endif %}
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary">Ja sou cliente</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="marketing-footer">
+    <div class="container-fluid marketing-container d-flex flex-column flex-lg-row justify-content-between gap-3">
+      <div>
+        <div class="fw-bold">Davi Alves Personal SaaS</div>
+        <div class="text-muted small">Demo publico para avaliacao comercial do produto.</div>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <a href="/" class="btn btn-outline-secondary btn-sm">Inicio</a>
+        <a href="{% url 'public_pricing' %}" class="btn btn-outline-secondary btn-sm">Planos</a>
+        <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-sm">Entrar</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

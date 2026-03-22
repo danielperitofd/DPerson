@@ -1,4 +1,4 @@
-﻿from django import forms
+from django import forms
 from django.contrib.auth import get_user_model
 from django.db import transaction
 
@@ -11,6 +11,8 @@ class TenantForm(forms.ModelForm):
     admin_username = forms.CharField(label="Usuario admin inicial", max_length=150, required=False)
     admin_full_name = forms.CharField(label="Nome do admin inicial", max_length=255, required=False)
     admin_email = forms.EmailField(label="E-mail do admin inicial", required=False)
+    admin_whatsapp_phone = forms.CharField(label="WhatsApp do admin inicial", max_length=30, required=False)
+    admin_public_sales_contact = forms.BooleanField(label="Usar este admin como contato comercial publico", required=False)
     admin_password = forms.CharField(
         label="Senha do admin inicial",
         required=False,
@@ -49,10 +51,16 @@ class TenantForm(forms.ModelForm):
         cleaned = super().clean()
         username = cleaned.get("admin_username")
         password = cleaned.get("admin_password")
+        admin_whatsapp_phone = (cleaned.get("admin_whatsapp_phone") or "").strip()
+        admin_public_sales_contact = cleaned.get("admin_public_sales_contact")
         if username and User.objects.filter(username=username).exists():
             self.add_error("admin_username", "Ja existe um usuario com esse username.")
         if username and not password:
             self.add_error("admin_password", "Informe a senha do admin inicial.")
+        if admin_public_sales_contact and not username:
+            self.add_error("admin_username", "Crie um admin inicial para vincular o contato comercial publico.")
+        if admin_public_sales_contact and not admin_whatsapp_phone:
+            self.add_error("admin_whatsapp_phone", "Informe o WhatsApp do gerente para habilitar o contato publico.")
         return cleaned
 
     @transaction.atomic
@@ -65,6 +73,8 @@ class TenantForm(forms.ModelForm):
                 password=self.cleaned_data["admin_password"],
                 email=self.cleaned_data.get("admin_email", ""),
                 full_name=self.cleaned_data.get("admin_full_name", ""),
+                whatsapp_phone=self.cleaned_data.get("admin_whatsapp_phone", ""),
+                is_public_sales_contact=self.cleaned_data.get("admin_public_sales_contact", False),
                 role=User.Role.TENANT_ADMIN,
                 is_staff=True,
             )

@@ -1,4 +1,4 @@
-﻿from django.contrib import admin
+from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .models import User
@@ -6,8 +6,8 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = ("username", "email", "full_name", "role", "is_active", "is_staff")
-    list_filter = ("role", "is_active", "is_staff", "is_superuser")
+    list_display = ("username", "email", "full_name", "role", "whatsapp_phone", "is_public_sales_contact", "is_active", "is_staff")
+    list_filter = ("role", "is_public_sales_contact", "is_active", "is_staff", "is_superuser")
     fieldsets = BaseUserAdmin.fieldsets + (
-        ("Perfil SaaS", {"fields": ("full_name", "role", "must_change_password")}),
+        ("Perfil SaaS", {"fields": ("full_name", "role", "whatsapp_phone", "is_public_sales_contact", "must_change_password")}),
     )

@@ -1,11 +1,11 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}Usuarios | Davi Alves SaaS{% endblock %}
 {% block content %}
-  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
-    <div>
+  <div class="section-header mb-4">
+    <div class="section-header__content">
       <span class="list-chip">Usuarios</span>
-      <h1 class="h2 fw-bold mt-2">Equipe da tenant ativa</h1>
-      <p class="text-muted mb-0">Controle administradores e staff com isolamento por tenant.</p>
+      <h1 class="h2 fw-bold section-title">Equipe da tenant ativa</h1>
+      <p class="section-copy">Controle administradores e staff com isolamento por tenant. O WhatsApp comercial do site tambem pode ser gerido aqui para administradores.</p>
     </div>
     <a href="{% url 'accounts:tenant_user_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>Novo usuario</a>
   </div>
@@ -28,7 +28,11 @@
                 <div class="fw-bold">{{ membership.user.full_name|default:membership.user.username }}</div>
                 <div class="text-muted small">@{{ membership.user.username }}</div>
               </td>
-              <td>{{ membership.user.email|default:"-" }}</td>
+              <td>
+                <div>{{ membership.user.email|default:"-" }}</div>
+                <div class="text-muted small">{{ membership.user.whatsapp_phone|default:"Sem WhatsApp" }}</div>
+                {% if membership.user.is_public_sales_contact %}<div class="small mt-1"><span class="badge badge-soft">Contato publico</span></div>{% endif %}
+              </td>
               <td>
                 <span class="badge badge-soft">{{ membership.get_role_display }}</span>
                 {% if membership.is_default %}<div class="small text-muted mt-1">Acesso padrao</div>{% endif %}

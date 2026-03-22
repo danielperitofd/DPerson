@@ -1,4 +1,4 @@
-﻿from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -10,6 +10,8 @@ class User(AbstractUser):
 
     full_name = models.CharField("nome completo", max_length=255, blank=True)
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.TENANT_STAFF)
+    whatsapp_phone = models.CharField("whatsapp", max_length=30, blank=True)
+    is_public_sales_contact = models.BooleanField("contato comercial publico", default=False)
     must_change_password = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):

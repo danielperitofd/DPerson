@@ -1,18 +1,18 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}Equipe da Tenant | Admin Tools{% endblock %}
 {% block content %}
-  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
-    <div>
+  <div class="section-header mb-4">
+    <div class="section-header__content">
       <span class="list-chip">Admin Tools</span>
-      <h1 class="h2 fw-bold mt-2">Equipe da tenant {{ managed_tenant.name }}</h1>
-      <p class="text-muted mb-0">Provisione administradores e staff diretamente pela visao master.</p>
+      <h1 class="h2 fw-bold section-title">Equipe da tenant {{ managed_tenant.name }}</h1>
+      <p class="section-copy">Provisione administradores e staff diretamente pela visao master, incluindo o gerente que aparecera no botao comercial do site.</p>
     </div>
     <div class="d-flex gap-2">
       <a href="{% url 'tenants:list' %}" class="btn btn-outline-secondary">Voltar</a>
       <a href="{% url 'tenants:team_create' managed_tenant.pk %}" class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>Novo usuario</a>
     </div>
   </div>
-  <div class="row g-4 mb-4">
+  <div class="row metric-grid-tight mb-4">
     <div class="col-md-4"><div class="metric-card"><div class="metric-label">Plano</div><div class="metric-value fs-3">{{ managed_tenant.get_plan_display }}</div><div class="metric-delta">{{ managed_tenant.slug }}</div></div></div>
     <div class="col-md-4"><div class="metric-card"><div class="metric-label">Status</div><div class="metric-value fs-3">{% if managed_tenant.is_active %}Ativa{% else %}Inativa{% endif %}</div><div class="metric-delta">Tenant operacional</div></div></div>
     <div class="col-md-4"><div class="metric-card"><div class="metric-label">Admin inicial</div><div class="metric-value fs-4">{{ managed_tenant.primary_admin|default:"Nao definido" }}</div><div class="metric-delta">Responsavel atual</div></div></div>
@@ -24,8 +24,15 @@
         <tbody>
           {% for membership in memberships %}
             <tr>
-              <td><div class="fw-bold">{{ membership.user.full_name|default:membership.user.username }}</div><div class="text-muted small">@{{ membership.user.username }}</div></td>
-              <td>{{ membership.user.email|default:"-" }}</td>
+              <td>
+                <div class="fw-bold">{{ membership.user.full_name|default:membership.user.username }}</div>
+                <div class="text-muted small">@{{ membership.user.username }}</div>
+              </td>
+              <td>
+                <div>{{ membership.user.email|default:"-" }}</div>
+                <div class="text-muted small">{{ membership.user.whatsapp_phone|default:"Sem WhatsApp" }}</div>
+                {% if membership.user.is_public_sales_contact %}<div class="small mt-1"><span class="badge badge-soft">Contato publico</span></div>{% endif %}
+              </td>
               <td><span class="badge badge-soft">{{ membership.get_role_display }}</span>{% if membership.is_default %}<div class="small text-muted mt-1">Acesso padrao</div>{% endif %}</td>
               <td><span class="badge {% if membership.is_active and membership.user.is_active %}text-bg-success{% else %}text-bg-secondary{% endif %}">{% if membership.is_active and membership.user.is_active %}Ativo{% else %}Inativo{% endif %}</span></td>
               <td class="text-end"><a href="{% url 'tenants:team_update' managed_tenant.pk membership.pk %}" class="action-icon icon-edit"><i class="bi bi-pencil-square"></i></a><a href="{% url 'tenants:team_delete' managed_tenant.pk membership.pk %}" class="action-icon icon-delete"><i class="bi bi-trash3"></i></a></td>

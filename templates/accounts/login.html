@@ -1,4 +1,4 @@
-﻿{% load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -15,16 +15,20 @@
 <body class="auth-body">
   <div class="container py-5">
     <div class="row justify-content-center align-items-center min-vh-100">
-      <div class="col-lg-10">
+      <div class="col-lg-11 col-xl-10">
         <div class="row g-4 align-items-stretch">
           <div class="col-lg-6">
             <div class="hero-panel h-100 d-flex flex-column justify-content-between">
               <div>
                 <span class="list-chip">Athlete Intelligence SaaS</span>
-                <h1 class="display-5 fw-bold mt-4">Gestao de alunos, avaliacoes e evolucao em uma base multi-tenant com estacao visual de alta performance.</h1>
-                <p class="lead text-muted mt-3">Painel escuro, leitura corporal orientada a resultados e identidade premium inspirada em performance fisica de atletas.</p>
+                <h1 class="display-5 fw-bold mt-4 mb-0">Gestao de alunos, avaliacoes e evolucao em uma base multi-tenant com estacao visual de alta performance.</h1>
+                <p class="section-copy mt-3">Se voce ainda esta avaliando o produto, volte ao demo publico e compare os planos antes de entrar.</p>
               </div>
-              <div class="d-flex align-items-center gap-3 mt-4">
+              <div class="d-flex flex-wrap gap-2 mt-4 mb-4">
+                <a href="/" class="btn btn-outline-primary">Voltar ao demo</a>
+                <a href="{% url 'public_pricing' %}" class="btn btn-primary">Ver planos</a>
+              </div>
+              <div class="d-flex align-items-center gap-3 mt-2">
                 <img src="{% static 'branding/logo_davialves_personal.png' %}" alt="Logo Davi Alves" class="brand-logo">
                 <div>
                   <div class="fw-bold">Davi Alves Personal</div>
@@ -34,9 +38,9 @@
             </div>
           </div>
           <div class="col-lg-5">
-            <div class="form-card p-4 p-lg-5 h-100">
+            <div class="form-card p-4 p-lg-5 h-100 d-flex flex-column justify-content-center">
               <h2 class="fw-bold mb-1">Entrar</h2>
-              <p class="text-muted mb-4">Entre com o usuario master inicial e ative tenants, seeds e operacao comercial a partir do painel central.</p>
+              <p class="text-muted mb-4">Acesso para clientes com tenant liberada e operacao ativa.</p>
               <form method="post" novalidate>
                 {% csrf_token %}
                 <div class="mb-3"><label class="form-label">{{ form.username.label }}</label>{{ form.username }}</div>

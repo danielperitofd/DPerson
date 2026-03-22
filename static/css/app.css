@@ -540,3 +540,208 @@ canvas { filter: drop-shadow(0 12px 22px rgba(255, 159, 26, 0.08)); }
     align-items: stretch;
   }
 }
+
+
+.marketing-body {
+  background:
+    radial-gradient(circle at top right, rgba(255, 159, 26, 0.18), transparent 18%),
+    radial-gradient(circle at left center, rgba(77, 163, 255, 0.12), transparent 24%),
+    linear-gradient(180deg, #04060a 0%, #09101a 52%, #04060a 100%);
+}
+
+.marketing-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.marketing-header {
+  position: sticky;
+  top: 0;
+  z-index: 1045;
+  backdrop-filter: blur(18px);
+  background: rgba(5, 7, 11, 0.62);
+  border-bottom: 1px solid var(--line);
+}
+
+.marketing-nav {
+  min-height: 84px;
+}
+
+.marketing-hero {
+  padding: 2rem 0 1.5rem;
+}
+
+.marketing-section {
+  padding: 1.5rem 0;
+}
+
+.marketing-cta-section {
+  padding-bottom: 2.25rem;
+}
+
+.marketing-title {
+  font-family: "Orbitron", "Exo 2", sans-serif;
+  font-size: clamp(2rem, 4.4vw, 4.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  max-width: 12ch;
+}
+
+.marketing-copy {
+  color: var(--muted);
+  max-width: 62ch;
+  line-height: 1.58;
+  margin-top: 1rem;
+}
+
+.marketing-display {
+  background:
+    linear-gradient(140deg, rgba(255, 159, 26, 0.08), rgba(8, 10, 16, 0.92) 42%, rgba(77, 163, 255, 0.08) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+}
+
+.marketing-screen {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 1rem;
+  background: rgba(3, 6, 12, 0.58);
+}
+
+.marketing-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(255, 159, 26, 0.18), rgba(77, 163, 255, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--accent-2);
+  font-size: 1.1rem;
+}
+
+.marketing-step {
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 159, 26, 0.12);
+  border: 1px solid rgba(255, 159, 26, 0.22);
+  color: var(--accent-2);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.marketing-footer {
+  border-top: 1px solid var(--line);
+  padding: 1rem 0 2rem;
+}
+
+.pricing-card {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 159, 26, 0.24);
+}
+
+.pricing-card--highlight {
+  border-color: rgba(255, 159, 26, 0.28);
+  box-shadow: 0 24px 54px rgba(255, 159, 26, 0.12);
+}
+
+.pricing-price {
+  font-family: "Orbitron", "Exo 2", sans-serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--accent-2);
+}
+
+.pricing-price span {
+  font-family: "Inter", "Rajdhani", sans-serif;
+  font-size: 0.95rem;
+  margin-left: 0.35rem;
+  color: var(--muted);
+}
+
+@media (max-width: 991.98px) {
+  .marketing-container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .marketing-nav {
+    min-height: auto;
+    padding: 0.9rem 0;
+    align-items: stretch !important;
+    flex-direction: column;
+  }
+
+  .marketing-title {
+    max-width: none;
+  }
+
+  .marketing-hero,
+  .marketing-section {
+    padding: 1rem 0;
+  }
+}
+
+
+.btn-whatsapp {
+  background: linear-gradient(135deg, #1fd071, #1bb55f);
+  border-color: #1fd071;
+  color: #07110b;
+  box-shadow: 0 16px 30px rgba(31, 208, 113, 0.22);
+}
+
+.btn-whatsapp:hover {
+  background: linear-gradient(135deg, #22db79, #21c16d);
+  border-color: #22db79;
+  color: #07110b;
+}
+
+.faq-accordion {
+  --bs-accordion-color: var(--text);
+  --bs-accordion-bg: transparent;
+  --bs-accordion-border-color: rgba(255, 255, 255, 0.08);
+  --bs-accordion-btn-color: var(--text);
+  --bs-accordion-btn-bg: rgba(255, 255, 255, 0.03);
+  --bs-accordion-active-color: var(--accent-2);
+  --bs-accordion-active-bg: rgba(255, 159, 26, 0.08);
+}
+
+.faq-accordion .accordion-item {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px !important;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.faq-accordion .accordion-item + .accordion-item {
+  margin-top: 0.8rem;
+}
+
+.faq-accordion .accordion-button {
+  box-shadow: none !important;
+  font-weight: 700;
+}
+
+.faq-accordion .accordion-button:not(.collapsed) {
+  box-shadow: none;
+}
+
+.faq-accordion .accordion-button::after {
+  filter: invert(82%) sepia(51%) saturate(828%) hue-rotate(328deg) brightness(104%) contrast(101%);
+}
+
+.faq-accordion .accordion-body {
+  color: var(--muted);
+  line-height: 1.55;
+}

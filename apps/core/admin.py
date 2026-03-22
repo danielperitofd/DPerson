@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import PublicLead
+
+
+@admin.register(PublicLead)
+class PublicLeadAdmin(admin.ModelAdmin):
+    list_display = ("name", "email", "phone", "plan_interest", "status", "created_at")
+    list_filter = ("plan_interest", "status", "created_at")
+    search_fields = ("name", "email", "phone", "company_name")

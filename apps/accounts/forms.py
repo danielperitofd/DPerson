@@ -1,4 +1,4 @@
-﻿from django import forms
+from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -26,7 +26,11 @@ class TenantUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("username", "full_name", "email", "is_active")
+        fields = ("username", "full_name", "email", "whatsapp_phone", "is_public_sales_contact", "is_active")
+        help_texts = {
+            "whatsapp_phone": "Numero usado no botao comercial publico. Ex.: 5511999999999 ou (11) 99999-9999.",
+            "is_public_sales_contact": "Marque para usar este gerente como contato comercial na pagina de planos.",
+        }
 
     def __init__(self, *args, membership=None, **kwargs):
         super().__init__(*args, **kwargs)
@@ -47,6 +51,10 @@ class TenantUserForm(forms.ModelForm):
         cleaned = super().clean()
         password = cleaned.get("password")
         confirm_password = cleaned.get("confirm_password")
+        membership_role = cleaned.get("membership_role")
+        is_public_sales_contact = cleaned.get("is_public_sales_contact")
+        whatsapp_phone = (cleaned.get("whatsapp_phone") or "").strip()
+
         if self.instance.pk:
             if password and password != confirm_password:
                 self.add_error("confirm_password", "As senhas nao conferem.")
@@ -55,6 +63,11 @@ class TenantUserForm(forms.ModelForm):
                 self.add_error("password", "Informe a senha inicial.")
             if password != confirm_password:
                 self.add_error("confirm_password", "As senhas nao conferem.")
+
+        if is_public_sales_contact and not whatsapp_phone:
+            self.add_error("whatsapp_phone", "Informe o WhatsApp do gerente para exibir o botao publico.")
+        if is_public_sales_contact and membership_role != TenantMembership.Role.ADMIN:
+            self.add_error("membership_role", "O contato comercial publico precisa ser um administrador da tenant.")
         return cleaned
 
     def clean_username(self):

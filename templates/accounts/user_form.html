@@ -1,20 +1,32 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}Usuario | Davi Alves SaaS{% endblock %}
 {% block content %}
   <div class="row justify-content-center">
     <div class="col-xl-8">
       <div class="form-card p-4 p-lg-5">
         <span class="list-chip">Usuarios</span>
-        <h1 class="h3 fw-bold mt-3 mb-4">{% if object %}Editar usuario da tenant{% else %}Novo usuario da tenant{% endif %}</h1>
+        <h1 class="h3 fw-bold mt-3 mb-1">{% if object %}Editar usuario da tenant{% else %}Novo usuario da tenant{% endif %}</h1>
+        
         <form method="post" class="row g-3">
           {% csrf_token %}
           {% for field in form %}
-            <div class="{% if field.name == 'is_active' %}col-12{% else %}col-md-6{% endif %}">
-              <label class="form-label">{{ field.label }}</label>
-              {{ field }}
-              {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
-              {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
-            </div>
+            {% if field.field.widget.input_type == 'checkbox' %}
+              <div class="col-12">
+                <div class="form-check mt-2">
+                  {{ field }}
+                  <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                </div>
+                {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+              </div>
+            {% else %}
+              <div class="col-md-6">
+                <label class="form-label">{{ field.label }}</label>
+                {{{ field }}}
+                {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+              </div>
+            {% endif %}
           {% endfor %}
           <div class="col-12 d-flex gap-2 pt-3">
             <button class="btn btn-primary"><i class="bi bi-check2-circle me-2"></i>Salvar</button>

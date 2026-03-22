@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planos | Davi Alves Personal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="{% static 'css/app.css' %}" rel="stylesheet">
+</head>
+<body class="marketing-body">
+  <header class="marketing-header">
+    <div class="container-fluid marketing-container">
+      <nav class="marketing-nav d-flex align-items-center justify-content-between gap-3">
+        <a href="/" class="brand-card text-decoration-none mb-0">
+          <img src="{% static 'branding/logo_davialves_personal.png' %}" alt="Logo Davi Alves" class="brand-logo">
+          <div>
+            <div class="brand-title">Davi Alves Personal</div>
+            <div class="brand-subtitle">Planos do SaaS</div>
+          </div>
+        </a>
+        <div class="d-flex align-items-center gap-2 gap-lg-3 flex-wrap justify-content-end">
+          <a href="/" class="btn btn-outline-primary btn-sm">Voltar ao demo</a>
+          {% if sales_whatsapp_url %}<a href="{{ sales_whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-sm"><i class="bi bi-whatsapp me-2"></i>{{ sales_whatsapp_label }}</a>{% endif %}
+          <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-sm">Entrar</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="marketing-section pt-4">
+    <div class="container-fluid marketing-container">
+      {% if messages %}
+        <div class="mb-3">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="section-header mb-4">
+        <div class="section-header__content">
+          <span class="list-chip">Planos</span>
+          <h1 class="h1 fw-bold section-title">Escolha o plano, confirme a contratacao e entre na operacao.</h1>
+          <p class="section-copy">O demo valida valor. Esta pagina transforma interesse em lead, conversa comercial e adesao.</p>
+        </div>
+      </div>
+
+      <div class="row content-grid-tight align-items-stretch">
+        {% for plan in plans %}
+          <div class="col-lg-4">
+            <div class="pricing-card panel-card p-4 h-100 {% if plan.highlight %}pricing-card--highlight{% endif %}">
+              <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                  <div class="metric-label">Plano {{ plan.name }}</div>
+                  <h2 class="h3 fw-bold mb-1">{{ plan.name }}</h2>
+                </div>
+                {% if plan.highlight %}<span class="list-chip">Mais vendido</span>{% endif %}
+              </div>
+              <div class="pricing-price mb-3">{{ plan.price }}<span>{{ plan.period }}</span></div>
+              <p class="section-copy mt-0">{{ plan.description }}</p>
+              <div class="d-grid insight-stack mt-3 mb-4">
+                {% for feature in plan.features %}
+                  <div class="insight-item rounded-4 border bg-light-subtle small">
+                    <i class="bi bi-check2-circle me-2"></i>{{ feature }}
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="mt-auto d-grid gap-2">
+                {% if sales_whatsapp_url %}
+                  <a href="{{ sales_whatsapp_url }}" target="_blank" rel="noopener" class="btn {% if plan.highlight %}btn-whatsapp{% else %}btn-outline-primary{% endif %}">Falar sobre {{ plan.name }}</a>
+                {% endif %}
+                <a href="#pre-cadastro" class="btn {% if plan.highlight %}btn-primary{% else %}btn-outline-primary{% endif %}">Quero este plano</a>
+                <div class="text-muted small">A liberacao do acesso acontece apos confirmacao comercial e vinculacao da tenant.</div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="panel-card p-4 mt-4">
+        <div class="section-header mb-3">
+          <div class="section-header__content">
+            <span class="list-chip">Comparativo</span>
+            <h2 class="h3 fw-bold section-title">Comparacao rapida dos planos</h2>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr><th>Recurso</th><th>Start</th><th>Pro</th><th>Team</th></tr>
+            </thead>
+            <tbody>
+              {% for row in comparison_rows %}
+                <tr>
+                  <td class="fw-semibold">{{ row.0 }}</td>
+                  <td>{{ row.1 }}</td>
+                  <td>{{ row.2 }}</td>
+                  <td>{{ row.3 }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row content-grid-tight mt-4 align-items-start">
+        <div class="col-xl-7" id="pre-cadastro">
+          <div class="form-card p-4 h-100">
+            <div class="section-header mb-3">
+              <div class="section-header__content">
+                <span class="list-chip">Pre-cadastro</span>
+                <h2 class="h3 fw-bold section-title">Deixe seus dados para a equipe comercial montar sua entrada no SaaS.</h2>
+                <p class="section-copy">Esse formulario salva o lead no banco e antecipa a configuracao da futura tenant.</p>
+              </div>
+            </div>
+            <form method="post" class="row g-3">
+              {% csrf_token %}
+              {% for field in lead_form %}
+                <div class="{% if field.name == 'message' %}col-12{% else %}col-md-6{% endif %}">
+                  <label class="form-label">{{ field.label }}</label>
+                  {{ field }}
+                  {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                  {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                </div>
+              {% endfor %}
+              <div class="col-12 d-flex flex-wrap gap-2 pt-2">
+                <button class="btn btn-primary"><i class="bi bi-send-check me-2"></i>Enviar interesse</button>
+                {% if sales_whatsapp_url %}<a href="{{ sales_whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp"><i class="bi bi-whatsapp me-2"></i>Falar com {{ sales_whatsapp_label }}</a>{% endif %}
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="panel-card p-4 h-100">
+            <div class="section-header mb-3">
+              <div class="section-header__content">
+                <span class="list-chip">FAQ</span>
+                <h2 class="h3 fw-bold section-title">Perguntas frequentes</h2>
+              </div>
+            </div>
+            <div class="accordion accordion-flush faq-accordion" id="faqAccordion">
+              {% for item in faq_items %}
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ forloop.counter }}">
+                      {{ item.question }}
+                    </button>
+                  </h2>
+                  <div id="faq{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">{{ item.answer }}</div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card p-4 mt-4">
+        <div class="row content-grid-tight align-items-center">
+          <div class="col-lg-8">
+            <div class="metric-label">Fluxo de entrada</div>
+            <h2 class="h4 fw-bold mb-2">Depois de contratar, o cliente entra no ambiente com tenant, usuarios e operacao liberados.</h2>
+            <p class="section-copy mt-0">Agora a jornada publica ja suporta comparacao, captura de lead e conversa no WhatsApp do gerente escolhido pelo master. O proximo passo natural e integrar checkout real e provisionamento automatico.</p>
+          </div>
+          <div class="col-lg-4">
+            <div class="d-grid gap-2">
+              <a href="/" class="btn btn-outline-primary">Rever demo</a>
+              {% if sales_whatsapp_url %}<a href="{{ sales_whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp">Chamar no WhatsApp</a>{% endif %}
+              <a href="{% url 'accounts:login' %}" class="btn btn-primary">Entrar como cliente</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
