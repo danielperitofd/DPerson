@@ -1,0 +1,23 @@
+﻿{% extends "base.html" %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-xl-10">
+      <div class="form-card p-4 p-lg-5">
+        <span class="list-chip">Admin Tools</span>
+        <h1 class="h3 fw-bold mt-3 mb-4">{% if object %}Editar tenant{% else %}Nova tenant{% endif %}</h1>
+        <form method="post" class="row g-3">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="{% if field.name == 'notes' %}col-12{% else %}col-md-6{% endif %}">
+              <label class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+              {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+            </div>
+          {% endfor %}
+          <div class="col-12 d-flex gap-2 pt-3"><button class="btn btn-primary"><i class="bi bi-check2-circle me-2"></i>Salvar</button><a href="{% url 'tenants:list' %}" class="btn btn-outline-secondary">Cancelar</a></div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

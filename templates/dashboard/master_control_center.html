@@ -1,0 +1,69 @@
+﻿{% extends "base.html" %}
+{% block title %}Control Center | Davi Alves SaaS{% endblock %}
+{% block content %}
+  <section class="hero-panel mb-4">
+    <div class="row align-items-center g-4">
+      <div class="col-xl-8">
+        <span class="list-chip">SaaS Manager</span>
+        <h1 class="display-6 fw-bold mt-3">Control Center do gestor SaaS com visao global das tenants e ponte direta para a operacao de cada cliente.</h1>
+        <p class="text-muted mt-3 mb-0">Esta area e exclusiva do master. Quando voce selecionar uma tenant no topo, entra em modo de visualizacao e enxerga exatamente as telas operacionais do gestor daquela tenant.</p>
+      </div>
+      <div class="col-xl-4">
+        <div class="panel-card p-4">
+          <div class="metric-label">Preview atual</div>
+          <div class="metric-value fs-3">{{ selected_preview_tenant.name|default:"Nenhuma tenant" }}</div>
+          <div class="text-muted">{% if selected_preview_tenant %}Visualizacao operacional ativa{% else %}Visao global do SaaS{% endif %}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Tenants</div><div class="metric-value">{{ tenant_count }}</div><div class="metric-delta">{{ active_tenant_count }} ativas</div></div></div>
+    <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Tenants Inativas</div><div class="metric-value">{{ inactive_tenant_count }}</div><div class="metric-delta">base contratual</div></div></div>
+    <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Alunos Totais</div><div class="metric-value">{{ student_count }}</div><div class="metric-delta">base consolidada</div></div></div>
+    <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Avaliacoes</div><div class="metric-value">{{ physical_count }}</div><div class="metric-delta">{{ postural_count }} posturais</div></div></div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-xl-4"><div class="panel-card p-4 h-100"><div class="metric-label">IMC medio global</div><div class="metric-value">{{ avg_bmi|floatformat:1 }}</div><div class="metric-delta">media consolidada entre tenants</div></div></div>
+    <div class="col-xl-4"><div class="panel-card p-4 h-100"><div class="metric-label">% gordura medio</div><div class="metric-value">{{ avg_body_fat|floatformat:1 }}</div><div class="metric-delta">referencia agregada</div></div></div>
+    <div class="col-xl-4"><div class="panel-card p-4 h-100"><div class="metric-label">Modo dual</div><div class="metric-value fs-4">SaaS + Tenant</div><div class="metric-delta">gestao global com preview operacional</div></div></div>
+  </div>
+
+  <div class="table-card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h2 class="h4 fw-bold mb-1">Mapa operacional das tenants</h2>
+        <p class="text-muted mb-0">Selecione uma tenant no topo para abrir o preview operacional, ou acesse o Admin Tools para gestao estrutural.</p>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead><tr><th>Tenant</th><th>Plano</th><th>Base</th><th>Avaliacoes</th><th>Status</th><th class="text-end">Acoes</th></tr></thead>
+        <tbody>
+          {% for tenant in tenants %}
+            <tr>
+              <td><div class="fw-bold">{{ tenant.name }}</div><div class="text-muted small">{{ tenant.slug }}</div></td>
+              <td><span class="badge badge-soft">{{ tenant.get_plan_display }}</span></td>
+              <td>{{ tenant.total_students }} aluno(s)</td>
+              <td>{{ tenant.total_physical }} fisica(s) / {{ tenant.total_postural }} postural(is)</td>
+              <td>{% if tenant.is_active %}<span class="badge text-bg-success">Ativa</span>{% else %}<span class="badge text-bg-secondary">Inativa</span>{% endif %}</td>
+              <td class="text-end">
+                <form method="post" action="{% url 'core:switch_tenant' %}" class="d-inline-block me-2">
+                  {% csrf_token %}
+                  <input type="hidden" name="tenant_id" value="{{ tenant.id }}">
+                  <input type="hidden" name="next" value="{% url 'students:list' %}">
+                  <button class="btn btn-outline-primary btn-sm">Ver como tenant</button>
+                </form>
+                <a href="{% url 'tenants:team_list' tenant.pk %}" class="btn btn-outline-secondary btn-sm">Equipe</a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="text-muted">Nenhuma tenant cadastrada.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

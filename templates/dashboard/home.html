@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Davi Alves SaaS{% endblock %}
+{% block content %}
+  <section class="hero-panel mb-4">
+    <div class="row align-items-center content-grid-tight">
+      <div class="col-xl-8">
+        <span class="list-chip">Visao {{ mode|title }}</span>
+        <h1 class="display-6 fw-bold mt-3 mb-0">Painel de performance com leitura corporal, operacao da tenant e evolucao digna de centro de alta performance.</h1>
+        <p class="section-copy mt-3">O visual agora segue uma direcao premium escura, com linguagem de analise esportiva, destaque neon e atmosfera de cockpit analitico.</p>
+      </div>
+      <div class="col-xl-4">
+        <div class="panel-card p-4 h-100 d-flex flex-column justify-content-between">
+          <div>
+            <div class="metric-label">Tenant ativa</div>
+            <div class="metric-value fs-3">{{ active_tenant.name|default:"Visao global" }}</div>
+          </div>
+          <div class="data-pill mt-3">{% if active_tenant %}Plano {{ active_tenant.get_plan_display }}{% else %}Painel master{% endif %}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="row metric-grid-tight mb-4">
+    {% if mode == "master" %}
+      <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Tenants</div><div class="metric-value">{{ tenant_count }}</div><div class="metric-delta">{{ active_tenant_count }} ativas</div></div></div>
+      <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Base Total</div><div class="metric-value">{{ student_count }}</div><div class="metric-delta">alunos cadastrados</div></div></div>
+      <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Status</div><div class="metric-value">{{ active_tenant_count }}</div><div class="metric-delta">operacoes em producao</div></div></div>
+      <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Saude da Base</div><div class="metric-value">Ready</div><div class="metric-delta">pronta para escalar</div></div></div>
+    {% else %}
+      <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Alunos</div><div class="metric-value">{{ student_count }}</div><div class="metric-delta">{{ active_student_count }} ativos</div></div></div>
+      <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">Avaliacoes Fisicas</div><div class="metric-value">{{ physical_count }}</div><div class="metric-delta">historico corporal</div></div></div>
+      <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">IMC Medio</div><div class="metric-value">{{ avg_bmi|floatformat:1 }}</div><div class="metric-delta">coorte atual</div></div></div>
+      <div class="col-md-6 col-xl-3"><div class="metric-card"><div class="metric-label">% Gordura Medio</div><div class="metric-value">{{ avg_body_fat|floatformat:1 }}</div><div class="metric-delta">referencia recente</div></div></div>
+    {% endif %}
+  </div>
+
+  <div class="row content-grid-tight">
+    <div class="col-xl-8">
+      <div class="panel-card p-4 h-100">
+        <div class="section-header section-header--tight">
+          <div class="section-header__content">
+            <h2 class="h4 fw-bold mb-0">Evolucao corporal</h2>
+            <p class="section-copy mt-2">Leitura historica do percentual de gordura com acabamento holografico.</p>
+          </div>
+        </div>
+        <canvas id="evolutionChart" height="120"></canvas>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="panel-card p-4 h-100">
+        <div class="section-header section-header--tight mb-0">
+          <div class="section-header__content">
+            <h2 class="h4 fw-bold mb-0">Insights automaticos</h2>
+          </div>
+        </div>
+        <div class="mt-3 d-grid insight-stack">
+          {% for insight in insights %}<div class="rounded-4 border bg-light-subtle insight-item">{{ insight }}</div>{% endfor %}
+        </div>
+      </div>
+    </div>
+    {% if mode == "tenant" %}
+      <div class="col-xl-5">
+        <div class="table-card p-4 h-100">
+          <div class="section-header section-header--tight">
+            <div class="section-header__content">
+              <h2 class="h4 fw-bold mb-0">Novos alunos</h2>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead><tr><th>Aluno</th><th>Contato</th><th>Status</th></tr></thead>
+              <tbody>
+                {% for student in recent_students %}
+                  <tr><td>{{ student.full_name }}</td><td>{{ student.phone|default:"-" }}</td><td><span class="badge badge-soft">{{ student.is_active|yesno:"Ativo,Inativo" }}</span></td></tr>
+                {% empty %}
+                  <tr><td colspan="3" class="text-muted">Nenhum aluno cadastrado.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-7">
+        <div class="table-card p-4 h-100">
+          <div class="section-header section-header--tight">
+            <div class="section-header__content">
+              <h2 class="h4 fw-bold mb-0">Resumo corporal recente</h2>
+            </div>
+          </div>
+          {% if latest_assessment %}
+            <div class="row metric-grid-tight">
+              <div class="col-md-4"><div class="metric-card"><div class="metric-label">IMC</div><div class="metric-value fs-3">{{ latest_assessment.bmi }}</div><div class="metric-delta">{{ latest_assessment.bmi_classification }}</div></div></div>
+              <div class="col-md-4"><div class="metric-card"><div class="metric-label">RCQ</div><div class="metric-value fs-3">{{ latest_assessment.waist_hip_ratio }}</div><div class="metric-delta">Relacao cintura/quadril</div></div></div>
+              <div class="col-md-4"><div class="metric-card"><div class="metric-label">% Gordura</div><div class="metric-value fs-3">{{ latest_assessment.body_fat_percentage }}</div><div class="metric-delta">Composicao estimada</div></div></div>
+            </div>
+          {% else %}
+            <div class="text-muted">Cadastre a primeira avaliacao fisica para preencher este bloco.</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script>
+    const chartLabels = {{ chart_labels|safe }};
+    const chartValues = {{ chart_values|safe }};
+    const canvas = document.getElementById("evolutionChart");
+    if (canvas) {
+      new Chart(canvas, {
+        type: "line",
+        data: {
+          labels: chartLabels,
+          datasets: [{
+            label: "% Gordura",
+            data: chartValues,
+            tension: 0.35,
+            fill: true,
+            borderColor: "#ff6a00",
+            backgroundColor: "rgba(255, 106, 0, 0.14)",
+            pointBackgroundColor: "#ff6a00",
+            pointRadius: 4
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          animation: { duration: 900 },
+          scales: {
+            y: { ticks: { color: "#cccccc" }, grid: { color: "rgba(255,106,0,.10)" } },
+            x: { ticks: { color: "#cccccc" }, grid: { display: false } }
+          }
+        }
+      });
+    }
+  </script>
+{% endblock %}

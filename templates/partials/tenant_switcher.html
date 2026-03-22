@@ -1,0 +1,21 @@
+﻿{% if request.user.is_authenticated %}
+  <form method="post" action="{% url 'core:switch_tenant' %}" class="d-flex align-items-center gap-2">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <select name="tenant_id" class="form-select form-select-sm" onchange="this.form.submit()">
+      {% if request.user.is_superuser %}
+        <option value="">Selecione</option>
+        {% for tenant in all_tenants %}
+          <option value="{{ tenant.id }}" {% if active_tenant and tenant.id == active_tenant.id %}selected{% endif %}>{{ tenant.name }}</option>
+        {% endfor %}
+      {% else %}
+        {% for membership in tenant_memberships %}
+          <option value="{{ membership.tenant.id }}" {% if active_tenant and membership.tenant.id == active_tenant.id %}selected{% endif %}>{{ membership.tenant.name }}</option>
+        {% endfor %}
+      {% endif %}
+    </select>
+    {% if request.user.is_superuser and active_tenant %}
+      <button type="submit" name="tenant_id" value="" class="btn btn-outline-secondary btn-sm">Sair da visualizacao</button>
+    {% endif %}
+  </form>
+{% endif %}

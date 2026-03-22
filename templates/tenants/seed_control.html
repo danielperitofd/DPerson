@@ -1,0 +1,83 @@
+﻿{% extends "base.html" %}
+{% block title %}Popular Test / Excluir | Admin Tools{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+    <div>
+      <span class="list-chip">Admin Tools</span>
+      <h1 class="h2 fw-bold mt-2">Popular Test / Excluir</h1>
+      <p class="text-muted mb-0">Wizard de seeds para demonstrar cenarios vendaveis do SaaS com usuarios, tenant, aluno e historico de avaliacoes.</p>
+    </div>
+  </div>
+
+  <div class="form-card p-4 p-lg-5 mb-4">
+    <h2 class="h4 fw-bold mb-3">Wizard de seed</h2>
+    <p class="text-muted mb-4">Escolha um perfil, gere os dados de teste no banco e use o dashboard para validar o comportamento visual e operacional.</p>
+    <div class="row g-4">
+      {% for profile in seed_profiles %}
+        <div class="col-xl-6">
+          <div class="panel-card p-4 h-100 {% if profile.tenant %}border-success-subtle{% endif %}">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <h3 class="h5 fw-bold mb-1">{{ profile.label }}</h3>
+                <div class="text-muted small">Aluno seed: {{ profile.student_name }}</div>
+              </div>
+              {% if profile.tenant %}
+                <span class="badge text-bg-success">Ativo no banco</span>
+              {% else %}
+                <span class="badge text-bg-secondary">Nao criado</span>
+              {% endif %}
+            </div>
+
+            <div class="d-grid gap-2 mb-4">
+              <div><strong>Usuario admin:</strong> <code>{{ profile.admin_username }}</code></div>
+              <div><strong>Usuario staff:</strong> <code>{{ profile.staff_username }}</code></div>
+              <div><strong>Senha:</strong> <code>{{ profile.password }}</code></div>
+              <div><strong>Meta do seed:</strong> {{ profile.physical_target }} avaliacoes fisicas e {{ profile.postural_target }} postural</div>
+              {% if profile.tenant %}
+                <div><strong>Tenant criada:</strong> {{ profile.tenant.name }}</div>
+                <div><strong>Estado atual:</strong> {{ profile.student_count }} aluno(s), {{ profile.physical_count }} fisica(s), {{ profile.postural_count }} postural(is)</div>
+              {% endif %}
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="populate">
+                <input type="hidden" name="profile" value="{{ profile.key }}">
+                <button class="btn btn-primary"><i class="bi bi-check2-circle me-2"></i>Popular {{ profile.label }}</button>
+              </form>
+              {% if profile.tenant %}
+                <a href="{% url 'tenants:team_list' profile.tenant.pk %}" class="btn btn-outline-primary">Abrir tenant</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-xl-7">
+      <div class="panel-card p-4 h-100">
+        <h2 class="h4 fw-bold mb-3">Perfis disponiveis</h2>
+        <div class="d-grid gap-3">
+          <div><strong>Avaliacao Iniciante:</strong> onboarding, aderencia e progresso rapido nas primeiras semanas.</div>
+          <div><strong>Emagrecimento:</strong> reducao de gordura com dashboard de evolucao corporal.</div>
+          <div><strong>Hipertrofia:</strong> foco em massa magra, perimetros e composicao corporal.</div>
+          <div><strong>Reabilitacao Postural:</strong> compensacoes, dor e estrategia de correcao postural.</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-5">
+      <div class="form-card p-4 h-100">
+        <h2 class="h4 fw-bold mb-3">Limpeza global</h2>
+        <p class="text-muted">Remove todas as tenants, usuarios, alunos e avaliacoes criados pelo wizard.</p>
+        <form method="post" class="pt-2">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="delete">
+          <button class="btn btn-outline-danger"><i class="bi bi-trash3 me-2"></i>Excluir todos os seeds</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

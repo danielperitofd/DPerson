@@ -1,0 +1,43 @@
+﻿{% load static %}
+<div class="offcanvas-header d-lg-none border-bottom">
+  <h5 class="offcanvas-title">Menu</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+</div>
+<div class="offcanvas-body p-lg-0">
+  <div class="brand-card">
+    <img src="{% static 'branding/logo_davialves_personal.png' %}" alt="Davi Alves" class="brand-logo">
+    <div>
+      <p class="brand-title">Davi Alves Personal</p>
+      <p class="brand-subtitle">SaaS multi-tenant para performance</p>
+    </div>
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="nav flex-column">
+      {% if request.user.is_superuser %}
+        <div class="nav-section-title">SaaS Manager</div>
+        <a href="{% url 'dashboard:control_center' %}" class="nav-link {% if request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'control_center' %}active{% endif %}"><i class="bi bi-broadcast-pin"></i> Control Center</a>
+      {% endif %}
+      <div class="nav-section-title">Operacao</div>
+      <a href="{% url 'dashboard:home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <a href="{% url 'students:list' %}" class="nav-link {% if request.resolver_match.namespace == 'students' %}active{% endif %}"><i class="bi bi-people"></i> Alunos</a>
+      <a href="{% url 'assessments:physical_list' %}" class="nav-link {% if request.resolver_match.url_name == 'physical_list' %}active{% endif %}"><i class="bi bi-clipboard2-pulse"></i> Avaliacao Fisica</a>
+      <a href="{% url 'assessments:postural_list' %}" class="nav-link {% if request.resolver_match.url_name == 'postural_list' %}active{% endif %}"><i class="bi bi-person-standing"></i> Avaliacao Postural</a>
+      {% if can_manage_users %}
+        <a href="{% url 'accounts:tenant_user_list' %}" class="nav-link {% if request.resolver_match.url_name == 'tenant_user_list' or request.resolver_match.url_name == 'tenant_user_create' or request.resolver_match.url_name == 'tenant_user_update' %}active{% endif %}"><i class="bi bi-person-badge"></i> Usuarios</a>
+      {% endif %}
+      <div class="nav-section-title">Expansao</div>
+      <a href="{% url 'students:list' %}" class="nav-link"><i class="bi bi-file-earmark-bar-graph"></i> Relatorios</a>
+      {% if request.user.is_superuser %}
+        <div class="nav-section-title">Admin Tools</div>
+        <a href="{% url 'tenants:list' %}" class="nav-link {% if request.resolver_match.namespace == 'tenants' and request.resolver_match.url_name == 'list' %}active{% endif %}"><i class="bi bi-building-gear"></i> Tenants</a>
+        <a href="{% url 'tenants:seed_control' %}" class="nav-link {% if request.resolver_match.namespace == 'tenants' and request.resolver_match.url_name == 'seed_control' %}active{% endif %}"><i class="bi bi-database-fill-gear"></i> Popular Test / Excluir</a>
+      {% endif %}
+    </div>
+    <div class="mt-4 pt-4 border-top">
+      <form method="post" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button class="btn btn-outline-secondary w-100">Sair</button>
+      </form>
+    </div>
+  {% endif %}
+</div>

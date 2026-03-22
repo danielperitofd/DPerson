@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Davi Alves Performance SaaS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#05070b;
+      --bg-soft:#0b0f17;
+      --panel:#101623;
+      --panel-2:#141d2d;
+      --line:rgba(255,255,255,.08);
+      --text:#edf2ff;
+      --muted:#93a0ba;
+      --accent:#ff9f1a;
+      --accent-2:#ffcf70;
+      --blue:#4da3ff;
+      --success:#26d18b;
+      --danger:#ff5f6d;
+      --shadow:0 20px 60px rgba(0,0,0,.45);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(255,159,26,.16), transparent 20%),
+        radial-gradient(circle at top left, rgba(77,163,255,.12), transparent 24%),
+        linear-gradient(180deg, #05070b 0%, #09101a 48%, #05070b 100%);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .app-shell{display:flex; min-height:100vh;}
+
+    .sidebar{
+      width:290px;
+      background:linear-gradient(180deg, rgba(9,12,18,.96), rgba(11,15,23,.92));
+      border-right:1px solid var(--line);
+      padding:24px 18px;
+      position:sticky;
+      top:0;
+      height:100vh;
+      backdrop-filter: blur(18px);
+      z-index:1040;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:14px;
+      border:1px solid rgba(255,159,26,.18);
+      background:linear-gradient(135deg, rgba(255,159,26,.10), rgba(255,255,255,.03));
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      margin-bottom:24px;
+    }
+
+    .logo-box{
+      width:58px;
+      height:58px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      background:radial-gradient(circle at top, rgba(255,207,112,.95), rgba(255,159,26,.92));
+      color:#111;
+      font-weight:900;
+      font-size:1.25rem;
+      box-shadow:0 12px 30px rgba(255,159,26,.28);
+    }
+
+    .brand h1{font-size:1rem; margin:0; font-weight:800; letter-spacing:.03em;}
+    .brand p{margin:2px 0 0; color:var(--muted); font-size:.78rem;}
+
+    .nav-title{
+      font-size:.75rem;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:#73819f;
+      margin:22px 12px 10px;
+      font-weight:700;
+    }
+
+    .nav-link-custom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      text-decoration:none;
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:16px;
+      margin-bottom:8px;
+      background:transparent;
+      border:1px solid transparent;
+      transition:.24s ease;
+      font-weight:600;
+    }
+
+    .nav-link-custom:hover,
+    .nav-link-custom.active{
+      transform:translateX(3px);
+      background:linear-gradient(135deg, rgba(255,159,26,.13), rgba(77,163,255,.06));
+      border-color:rgba(255,159,26,.20);
+      color:white;
+    }
+
+    .nav-badge{
+      font-size:.72rem;
+      padding:4px 9px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      color:var(--accent-2);
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .main-content{flex:1; min-width:0;}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:1030;
+      backdrop-filter: blur(18px);
+      background:rgba(5,7,11,.65);
+      border-bottom:1px solid var(--line);
+    }
+
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:18px 24px;
+    }
+
+    .search-glass{
+      flex:1;
+      max-width:560px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:18px;
+      padding:12px 16px;
+      color:var(--muted);
+    }
+
+    .search-glass input{
+      width:100%;
+      border:none;
+      background:transparent;
+      outline:none;
+      color:var(--text);
+    }
+
+    .hero{
+      padding:32px 24px 18px;
+    }
+
+    .hero-card{
+      position:relative;
+      overflow:hidden;
+      border-radius:32px;
+      padding:32px;
+      background:
+        linear-gradient(120deg, rgba(255,159,26,.18), rgba(8,10,16,.76) 40%, rgba(77,163,255,.08) 100%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow);
+    }
+
+    .hero-card::before,
+    .hero-card::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      filter: blur(30px);
+      opacity:.6;
+    }
+
+    .hero-card::before{
+      width:220px; height:220px; right:-60px; top:-60px;
+      background:rgba(255,159,26,.22);
+    }
+
+    .hero-card::after{
+      width:180px; height:180px; left:-50px; bottom:-70px;
+      background:rgba(77,163,255,.16);
+    }
+
+    .eyebrow{
+      color:var(--accent-2);
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:.74rem;
+      font-weight:800;
+      margin-bottom:12px;
+    }
+
+    .hero h2{
+      font-size:clamp(2rem, 3.2vw, 4rem);
+      line-height:1;
+      font-weight:900;
+      margin:0 0 14px;
+      max-width:780px;
+    }
+
+    .hero p{
+      color:var(--muted);
+      max-width:740px;
+      font-size:1.02rem;
+      margin-bottom:24px;
+    }
+
+    .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+
+    .btn-hero,
+    .btn-ghost{
+      border-radius:16px;
+      padding:14px 18px;
+      font-weight:800;
+      border:none;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .btn-hero{
+      background:linear-gradient(135deg, var(--accent), #ffb347);
+      color:#111;
+      box-shadow:0 18px 35px rgba(255,159,26,.24);
+    }
+
+    .btn-ghost{
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .kpi-strip{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:16px;
+      margin-top:28px;
+    }
+
+    .kpi-card,
+    .glass-card{
+      background:linear-gradient(180deg, rgba(18,25,38,.98), rgba(13,18,28,.9));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+    }
+
+    .kpi-card{padding:20px 18px;}
+    .kpi-card small{display:block; color:var(--muted); margin-bottom:8px; font-weight:600;}
+    .kpi-card strong{font-size:1.72rem; display:block; line-height:1;}
+    .kpi-card span{display:inline-block; margin-top:10px; color:var(--success); font-weight:700; font-size:.88rem;}
+
+    .section{padding:0 24px 24px;}
+    .section-header{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin:18px 0 16px;}
+    .section-header h3{margin:0; font-size:1.35rem; font-weight:800;}
+    .section-header p{margin:0; color:var(--muted);}
+
+    .glass-card{padding:22px; position:relative; overflow:hidden;}
+
+    .status-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      padding:7px 12px;
+      font-size:.76rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .status-warning{color:var(--accent-2); background:rgba(255,159,26,.10);}
+    .status-good{color:#76f2c1; background:rgba(38,209,139,.09);}
+    .status-info{color:#9bc9ff; background:rgba(77,163,255,.10);}
+    .status-danger{color:#ff9ca4; background:rgba(255,95,109,.10);}
+
+    .chart-box{
+      min-height:270px;
+      border-radius:20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02)),
+        repeating-linear-gradient(180deg, transparent, transparent 39px, rgba(255,255,255,.03) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,.02) 60px);
+      border:1px solid rgba(255,255,255,.05);
+      padding:20px;
+    }
+
+    .ring-wrap{display:flex; align-items:center; justify-content:center; height:260px;}
+    .ring{
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background:conic-gradient(var(--accent) 0 68deg, #59d5bd 68deg 204deg, #6a87ff 204deg 270deg, #444d66 270deg 360deg);
+      display:grid;
+      place-items:center;
+      box-shadow:0 25px 45px rgba(0,0,0,.35);
+    }
+    .ring::after{
+      content:"";
+      width:130px;
+      height:130px;
+      border-radius:50%;
+      background:linear-gradient(180deg, #08101a, #0c1320);
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow: inset 0 0 0 10px rgba(255,255,255,.01);
+    }
+
+    .legend-item{display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--muted); margin-bottom:10px;}
+    .legend-bullet{width:12px; height:12px; border-radius:50%; display:inline-block; margin-right:10px;}
+
+    .mini-bars{display:grid; gap:14px; margin-top:10px;}
+    .mini-bar{display:grid; gap:7px;}
+    .mini-bar label{display:flex; justify-content:space-between; color:var(--muted); font-size:.9rem; font-weight:600;}
+    .bar-track{height:12px; border-radius:999px; background:rgba(255,255,255,.06); overflow:hidden;}
+    .bar-fill{height:100%; border-radius:999px; background:linear-gradient(90deg, var(--accent), #ffcf70);}
+    .bar-fill.blue{background:linear-gradient(90deg, #59d5bd, #4da3ff);}
+    .bar-fill.red{background:linear-gradient(90deg, #ff7d58, #ff5f6d);}
+
+    .form-label{font-size:.86rem; color:#bdc8df; font-weight:700; margin-bottom:8px;}
+    .form-control,
+    .form-select,
+    textarea{
+      background:rgba(255,255,255,.045) !important;
+      border:1px solid rgba(255,255,255,.07) !important;
+      color:var(--text) !important;
+      border-radius:16px !important;
+      padding:.85rem 1rem !important;
+      min-height:48px;
+    }
+    .form-control::placeholder,
+    textarea::placeholder{color:#8692aa !important;}
+    .form-control:focus,
+    .form-select:focus,
+    textarea:focus{
+      box-shadow:0 0 0 .22rem rgba(255,159,26,.18) !important;
+      border-color:rgba(255,159,26,.35) !important;
+    }
+
+    .metric-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:14px;
+      padding:10px 12px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+      font-weight:700;
+      color:#cad3e6;
+      margin:0 8px 8px 0;
+      font-size:.88rem;
+    }
+
+    .table-dark-custom{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0 10px;
+    }
+    .table-dark-custom th{
+      color:#91a0bb;
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:800;
+      padding:0 12px 8px;
+    }
+    .table-dark-custom td{
+      background:rgba(255,255,255,.035);
+      border-top:1px solid rgba(255,255,255,.05);
+      border-bottom:1px solid rgba(255,255,255,.05);
+      padding:14px 12px;
+      vertical-align:middle;
+    }
+    .table-dark-custom td:first-child{border-left:1px solid rgba(255,255,255,.05); border-radius:14px 0 0 14px;}
+    .table-dark-custom td:last-child{border-right:1px solid rgba(255,255,255,.05); border-radius:0 14px 14px 0;}
+
+    .photo-card{
+      aspect-ratio:4/5;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.5)),
+        radial-gradient(circle at top, rgba(255,159,26,.16), transparent 30%),
+        linear-gradient(135deg, #1a2333, #0d121b);
+      display:flex;
+      align-items:flex-end;
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+      min-height:280px;
+    }
+
+    .photo-card::before{
+      content:"";
+      position:absolute;
+      inset:12px;
+      border-radius:18px;
+      border:1px dashed rgba(255,255,255,.08);
+    }
+
+    .photo-card span{position:relative; z-index:1; color:#d7deed; font-weight:700;}
+
+    .timeline{display:grid; gap:14px;}
+    .timeline-item{
+      display:grid;
+      grid-template-columns:52px 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    .timeline-dot{
+      width:52px; height:52px; border-radius:16px;
+      display:grid; place-items:center;
+      background:linear-gradient(135deg, rgba(255,159,26,.18), rgba(77,163,255,.13));
+      border:1px solid rgba(255,255,255,.08);
+      font-weight:900;
+      color:var(--accent-2);
+    }
+    .timeline-body{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:18px;
+      padding:16px;
+    }
+    .timeline-body h6{margin:0 0 6px; font-size:1rem; font-weight:800;}
+    .timeline-body p{margin:0; color:var(--muted); font-size:.94rem;}
+
+    .mobile-topbrand{display:none;}
+
+    @media (max-width: 1199.98px){
+      .kpi-strip{grid-template-columns:repeat(2, minmax(0,1fr));}
+    }
+
+    @media (max-width: 991.98px){
+      .sidebar{display:none;}
+      .mobile-topbrand{display:flex; align-items:center; gap:12px;}
+      .hero-card{padding:26px;}
+    }
+
+    @media (max-width: 767.98px){
+      .topbar-inner,
+      .hero,
+      .section{padding-left:16px; padding-right:16px;}
+      .hero-card{border-radius:26px;}
+      .kpi-strip{grid-template-columns:1fr;}
+      .ring{width:180px; height:180px;}
+      .ring::after{width:110px; height:110px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo-box">DA</div>
+        <div>
+          <h1>Davi Alves Performance</h1>
+          <p>SaaS multi-tenant para personal trainers premium</p>
+        </div>
+      </div>
+
+      <div class="nav-title">Operação</div>
+      <a class="nav-link-custom active" href="#dashboard">Dashboard <span class="nav-badge">Live</span></a>
+      <a class="nav-link-custom" href="#avaliacao">Nova avaliação <span class="nav-badge">Core</span></a>
+      <a class="nav-link-custom" href="#comparativo">Comparativos <span class="nav-badge">AI</span></a>
+      <a class="nav-link-custom" href="#postural">Postural <span class="nav-badge">Pro</span></a>
+      <a class="nav-link-custom" href="#clientes">Alunos <span class="nav-badge">CRM</span></a>
+      <a class="nav-link-custom" href="#planos">Planos e cobrança <span class="nav-badge">Tenant</span></a>
+
+      <div class="nav-title">Crescimento</div>
+      <a class="nav-link-custom" href="#funil">Funil comercial <span class="nav-badge">Sales</span></a>
+      <a class="nav-link-custom" href="#feed">Feed de resultados <span class="nav-badge">Social</span></a>
+      <a class="nav-link-custom" href="#roadmap">Escalabilidade <span class="nav-badge">Scale</span></a>
+
+      <div class="glass-card mt-4">
+        <div class="status-pill status-warning mb-3">Plano Titan</div>
+        <h5 class="fw-bold mb-2">Multi-tenant de verdade</h5>
+        <p class="text-secondary mb-3">Cada personal com sua própria base de alunos, avaliações, fotos, relatórios e cobrança, sem vazamento entre contas.</p>
+        <div class="metric-chip">White-label</div>
+        <div class="metric-chip">Subdomínio</div>
+        <div class="metric-chip">Relatório PDF</div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-inner">
+          <div class="mobile-topbrand">
+            <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+              ☰
+            </button>
+            <div class="logo-box" style="width:46px;height:46px;font-size:1rem;border-radius:14px;">DA</div>
+          </div>
+
+          <div>
+            <div class="eyebrow mb-1">Demo premium</div>
+            <strong style="font-size:1.05rem;">SaaS para personais que querem parecer grandes antes de virarem gigantes</strong>
+          </div>
+
+          <div class="search-glass d-none d-md-flex">
+            <span>⌕</span>
+            <input type="text" placeholder="Buscar aluno, avaliação, protocolo, plano ou tenant...">
+          </div>
+        </div>
+      </header>
+
+      <section class="hero" id="dashboard">
+        <div class="hero-card">
+          <div class="eyebrow">Brand + Performance + Escala</div>
+          <h2>Um painel cinematográfico para personais venderem resultado, não só treino.</h2>
+          <p>
+            Este mockup posiciona a marca do Davi como uma plataforma premium: captação de alunos, avaliação física, análise comparativa, postural, dashboards de evolução, relatórios e gestão multi-tenant em uma experiência escura, forte e memorável.
+          </p>
+          <div class="cta-row">
+            <a href="#avaliacao" class="btn-hero">Abrir avaliação física</a>
+            <a href="#comparativo" class="btn-ghost">Ver dashboard Hollywood</a>
+          </div>
+
+          <div class="kpi-strip">
+            <div class="kpi-card">
+              <small>Alunos ativos</small>
+              <strong>184</strong>
+              <span>+12% este mês</span>
+            </div>
+            <div class="kpi-card">
+              <small>Avaliações concluídas</small>
+              <strong>527</strong>
+              <span>+38 novas na semana</span>
+            </div>
+            <div class="kpi-card">
+              <small>Conversão de leads</small>
+              <strong>31,4%</strong>
+              <span>Acima da média</span>
+            </div>
+            <div class="kpi-card">
+              <small>Receita MRR</small>
+              <strong>R$ 18,9k</strong>
+              <span>Plano SaaS escalável</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="row g-4">
+          <div class="col-xl-4">
+            <div class="glass-card h-100">
+              <div class="section-header mb-3">
+                <div>
+                  <h3>Resumo corporal</h3>
+                  <p>Leitura imediata do aluno logo após salvar a avaliação.</p>
+                </div>
+                <span class="status-pill status-good">Pollock 7</span>
+              </div>
+
+              <div class="ring-wrap">
+                <div class="ring"></div>
+              </div>
+
+              <div class="legend-item"><div><span class="legend-bullet" style="background:#ff9f1a"></span>Gordura atual</div><strong>18,76%</strong></div>
+              <div class="legend-item"><div><span class="legend-bullet" style="background:#59d5bd"></span>Peso magro</div><strong>77,99 kg</strong></div>
+              <div class="legend-item"><div><span class="legend-bullet" style="background:#6a87ff"></span>Peso ideal</div><strong>93,96 kg</strong></div>
+              <div class="legend-item"><div><span class="legend-bullet" style="background:#444d66"></span>Meta gordura</div><strong>17,00%</strong></div>
+            </div>
+          </div>
+
+          <div class="col-xl-8">
+            <div class="glass-card h-100">
+              <div class="section-header">
+                <div>
+                  <h3>Evolução inteligente</h3>
+                  <p>Comparativo entre avaliações, com leitura rápida de riscos, progresso e aderência.</p>
+                </div>
+                <span class="status-pill status-info">Dashboard Oscar</span>
+              </div>
+
+              <div class="chart-box">
+                <div class="row h-100 align-items-end">
+                  <div class="col-md-8">
+                    <div class="mini-bars">
+                      <div class="mini-bar">
+                        <label><span>IMC</span><strong>28,05</strong></label>
+                        <div class="bar-track"><div class="bar-fill red" style="width:72%"></div></div>
+                      </div>
+                      <div class="mini-bar">
+                        <label><span>RCQ</span><strong>0,92</strong></label>
+                        <div class="bar-track"><div class="bar-fill blue" style="width:61%"></div></div>
+                      </div>
+                      <div class="mini-bar">
+                        <label><span>Flexão abdominal</span><strong>33 rep.</strong></label>
+                        <div class="bar-track"><div class="bar-fill" style="width:88%"></div></div>
+                      </div>
+                      <div class="mini-bar">
+                        <label><span>Flexão de braços</span><strong>25 rep.</strong></label>
+                        <div class="bar-track"><div class="bar-fill blue" style="width:78%"></div></div>
+                      </div>
+                      <div class="mini-bar">
+                        <label><span>Banco de Wells</span><strong>24</strong></label>
+                        <div class="bar-track"><div class="bar-fill" style="width:64%"></div></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mt-4 mt-md-0">
+                    <div class="glass-card" style="background:rgba(255,255,255,.03); padding:18px;">
+                      <small class="text-secondary d-block mb-2">Insights automáticos</small>
+                      <div class="status-pill status-warning mb-2">Atenção</div>
+                      <p class="mb-3 text-secondary">Gordura atual ligeiramente acima da meta, com margem curta para correção e boa base muscular.</p>
+                      <div class="status-pill status-good mb-2">Ponto forte</div>
+                      <p class="mb-0 text-secondary">Resistência muscular excelente, sugerindo boa resposta para programa de recomposição.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="avaliacao">
+        <div class="section-header">
+          <div>
+            <h3>Formulário de avaliação física</h3>
+            <p>Estruturado para o personal preencher rápido e o sistema devolver cálculo, classificação e dashboard na hora.</p>
+          </div>
+          <span class="status-pill status-good">Auto cálculo</span>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-xl-8">
+            <div class="glass-card">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nome do aluno</label>
+                  <input class="form-control" placeholder="Ex.: Daniel Alves dos Santos">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Data da avaliação</label>
+                  <input type="date" class="form-control" value="2026-03-21">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Protocolo</label>
+                  <select class="form-select">
+                    <option>Pollock 7 Dobras</option>
+                    <option>Pollock 3 Dobras</option>
+                    <option>Bioimpedância</option>
+                  </select>
+                </div>
+
+                <div class="col-md-3">
+                  <label class="form-label">Peso (kg)</label>
+                  <input class="form-control" value="96,00">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Altura (m)</label>
+                  <input class="form-control" value="1,85">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Idade</label>
+                  <input class="form-control" value="45">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Meta de gordura (%)</label>
+                  <input class="form-control" value="17,00">
+                </div>
+
+                <div class="col-12 mt-2"><div class="metric-chip">Dobras cutâneas</div></div>
+                <div class="col-md-3"><label class="form-label">Peitoral (mm)</label><input class="form-control" value="5,00"></div>
+                <div class="col-md-3"><label class="form-label">Axilar média (mm)</label><input class="form-control" value="17,00"></div>
+                <div class="col-md-3"><label class="form-label">Tricipital (mm)</label><input class="form-control" value="10,00"></div>
+                <div class="col-md-3"><label class="form-label">Subescapular (mm)</label><input class="form-control" value="22,00"></div>
+                <div class="col-md-4"><label class="form-label">Abdominal (mm)</label><input class="form-control" value="29,00"></div>
+                <div class="col-md-4"><label class="form-label">Supra-ilíaca (mm)</label><input class="form-control" value="23,00"></div>
+                <div class="col-md-4"><label class="form-label">Coxa (mm)</label><input class="form-control" value="10,00"></div>
+
+                <div class="col-12 mt-2"><div class="metric-chip">Perímetros</div></div>
+                <div class="col-md-3"><label class="form-label">Cintura (cm)</label><input class="form-control" value="92,00"></div>
+                <div class="col-md-3"><label class="form-label">Quadril (cm)</label><input class="form-control" value="100,00"></div>
+                <div class="col-md-3"><label class="form-label">Abdômen (cm)</label><input class="form-control" value="98,00"></div>
+                <div class="col-md-3"><label class="form-label">Tórax (cm)</label><input class="form-control" value="98,00"></div>
+                <div class="col-md-3"><label class="form-label">Ombro (cm)</label><input class="form-control" value="118,50"></div>
+                <div class="col-md-3"><label class="form-label">Pescoço (cm)</label><input class="form-control" value="41,00"></div>
+                <div class="col-md-3"><label class="form-label">Braço contraído dir. (cm)</label><input class="form-control" value="39,00"></div>
+                <div class="col-md-3"><label class="form-label">Braço contraído esq. (cm)</label><input class="form-control" value="40,50"></div>
+                <div class="col-md-3"><label class="form-label">Panturrilha dir. (cm)</label><input class="form-control" value="44,50"></div>
+                <div class="col-md-3"><label class="form-label">Panturrilha esq. (cm)</label><input class="form-control" value="47,00"></div>
+                <div class="col-md-3"><label class="form-label">Coxa proximal dir. (cm)</label><input class="form-control" value="62,00"></div>
+                <div class="col-md-3"><label class="form-label">Coxa proximal esq. (cm)</label><input class="form-control" value="62,00"></div>
+
+                <div class="col-12 mt-2"><div class="metric-chip">Diâmetros ósseos</div></div>
+                <div class="col-md-4"><label class="form-label">Punho (cm)</label><input class="form-control" value="6,40"></div>
+                <div class="col-md-4"><label class="form-label">Úmero (cm)</label><input class="form-control" value="7,90"></div>
+                <div class="col-md-4"><label class="form-label">Fêmur (cm)</label><input class="form-control" value="8,40"></div>
+
+                <div class="col-12 mt-2"><div class="metric-chip">Desempenho</div></div>
+                <div class="col-md-3"><label class="form-label">Banco de Wells</label><input class="form-control" value="24"></div>
+                <div class="col-md-3"><label class="form-label">Flexiteste</label><input class="form-control" value="21"></div>
+                <div class="col-md-3"><label class="form-label">Flexão abdominal</label><input class="form-control" value="33"></div>
+                <div class="col-md-3"><label class="form-label">Flexão de braços</label><input class="form-control" value="25"></div>
+
+                <div class="col-12">
+                  <label class="form-label">Observações técnicas</label>
+                  <textarea class="form-control" rows="4" placeholder="Ex.: treino individualizado, ajustes de postura, observações do teste...">Teste realizado com excelente resistência geral e boa base muscular. Indicado foco em recomposição corporal, mobilidade torácica e reeducação postural.</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4">
+            <div class="glass-card mb-4">
+              <div class="section-header mb-3">
+                <div>
+                  <h3>Saída imediata</h3>
+                  <p>O aluno vê o resultado em segundos, porque paciência humana é artigo de luxo.</p>
+                </div>
+              </div>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-dot">1</div>
+                  <div class="timeline-body">
+                    <h6>IMC e classificação</h6>
+                    <p>28,05 · Sobrepeso</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot">2</div>
+                  <div class="timeline-body">
+                    <h6>RCQ</h6>
+                    <p>0,92 · Faixa normal</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot">3</div>
+                  <div class="timeline-body">
+                    <h6>% gordura</h6>
+                    <p>18,76% atual vs 17,00% meta</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot">4</div>
+                  <div class="timeline-body">
+                    <h6>Recomendação</h6>
+                    <p>Foco em redução leve de gordura, manutenção de massa magra e correção postural.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-card">
+              <h5 class="fw-bold mb-3">Fluxo premium do SaaS</h5>
+              <div class="metric-chip">Cadastro do aluno</div>
+              <div class="metric-chip">Avaliação + fotos</div>
+              <div class="metric-chip">Dashboard</div>
+              <div class="metric-chip">Plano de treino</div>
+              <div class="metric-chip">PDF com marca</div>
+              <div class="metric-chip">Comparativo mensal</div>
+              <div class="metric-chip">Recorrência</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="postural">
+        <div class="section-header">
+          <div>
+            <h3>Avaliação postural</h3>
+            <p>Checklist visual para lateral, anterior e posterior, já alinhado com o relatório.</p>
+          </div>
+          <span class="status-pill status-danger">Correção guiada</span>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="glass-card h-100">
+              <h5 class="fw-bold mb-3">Visão lateral direita / esquerda</h5>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label">Anterversão de quadril</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox"> <label class="form-check-label">Retroversão de quadril</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label">Rotação interna dos ombros</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox"> <label class="form-check-label">Retificação cervical</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox"> <label class="form-check-label">Retificação lombar</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label">Protusão abdominal</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox"> <label class="form-check-label">Hipercifose torácica</label></div>
+              <div class="form-check mb-0"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label">Pé cavo / genu recurvado</label></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="glass-card h-100">
+              <h5 class="fw-bold mb-3">Visão posterior</h5>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label">Protração escapular</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox"> <label class="form-check-label">Retração escapular</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label">Depressão escapular</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox"> <label class="form-check-label">Pé valgo / pé varo</label></div>
+              <div class="form-check mb-0"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label">Encurtamento do trapézio</label></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="glass-card h-100">
+              <h5 class="fw-bold mb-3">Visão anterior</h5>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label">Genu valgo</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox"> <label class="form-check-label">Genu varo</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox"> <label class="form-check-label">Pé aduto</label></div>
+              <div class="form-check mb-2"><input class="form-check-input" type="checkbox" checked> <label class="form-check-label">Pé abduto</label></div>
+              <label class="form-label mt-3">Assimetria de quadril</label>
+              <select class="form-select mb-3">
+                <option>Elevação pelve esquerda</option>
+                <option>Elevação pelve direita</option>
+                <option>Nenhuma elevação</option>
+              </select>
+              <label class="form-label">Assimetria de ombros</label>
+              <select class="form-select">
+                <option>Elevação esquerdo</option>
+                <option>Elevação direito</option>
+                <option>Nenhuma elevação</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="comparativo">
+        <div class="section-header">
+          <div>
+            <h3>Comparativo visual do aluno</h3>
+            <p>Área pensada para comparar avaliações, fotos e medidas em linhas do tempo impactantes.</p>
+          </div>
+          <span class="status-pill status-info">Before / After</span>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-6 col-xl-3"><div class="photo-card"><span>Frontal<br><small class="text-secondary">1ª avaliação</small></span></div></div>
+          <div class="col-md-6 col-xl-3"><div class="photo-card"><span>Costas contraído<br><small class="text-secondary">1ª avaliação</small></span></div></div>
+          <div class="col-md-6 col-xl-3"><div class="photo-card"><span>Frontal contraído<br><small class="text-secondary">1ª avaliação</small></span></div></div>
+          <div class="col-md-6 col-xl-3"><div class="photo-card"><span>Lateral<br><small class="text-secondary">1ª avaliação</small></span></div></div>
+        </div>
+      </section>
+
+      <section class="section" id="clientes">
+        <div class="section-header">
+          <div>
+            <h3>Alunos e acompanhamento</h3>
+            <p>CRM simples, premium e vendável. Porque planilha já fez gente suficiente sofrer.</p>
+          </div>
+          <span class="status-pill status-good">Retenção</span>
+        </div>
+
+        <div class="glass-card">
+          <table class="table-dark-custom">
+            <thead>
+              <tr>
+                <th>Aluno</th>
+                <th>Objetivo</th>
+                <th>Status</th>
+                <th>Última avaliação</th>
+                <th>Próxima ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Daniel Alves</strong><br><small class="text-secondary">Plano Premium</small></td>
+                <td>Recomposição corporal</td>
+                <td><span class="status-pill status-warning">Meta próxima</span></td>
+                <td>21/03/2026</td>
+                <td>Retestar em 30 dias</td>
+              </tr>
+              <tr>
+                <td><strong>Camila Rocha</strong><br><small class="text-secondary">Plano Plus</small></td>
+                <td>Definição + mobilidade</td>
+                <td><span class="status-pill status-good">Evoluindo</span></td>
+                <td>18/03/2026</td>
+                <td>Enviar relatório PDF</td>
+              </tr>
+              <tr>
+                <td><strong>João Victor</strong><br><small class="text-secondary">Plano Starter</small></td>
+                <td>Ganho de massa</td>
+                <td><span class="status-pill status-info">Em avaliação</span></td>
+                <td>17/03/2026</td>
+                <td>Finalizar fotos</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="planos">
+        <div class="section-header">
+          <div>
+            <h3>Modelo de venda SaaS</h3>
+            <p>Estrutura escalável para vender por personal, estúdio ou rede.</p>
+          </div>
+          <span class="status-pill status-warning">MRR</span>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="glass-card h-100">
+              <div class="status-pill status-info mb-3">Starter</div>
+              <h4 class="fw-bold">R$ 79/mês</h4>
+              <p class="text-secondary">Para personal solo começando a profissionalizar atendimento.</p>
+              <div class="metric-chip">50 alunos</div>
+              <div class="metric-chip">Avaliação física</div>
+              <div class="metric-chip">Relatório com marca</div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="glass-card h-100" style="border-color:rgba(255,159,26,.26); box-shadow:0 22px 65px rgba(255,159,26,.12);">
+              <div class="status-pill status-warning mb-3">Pro</div>
+              <h4 class="fw-bold">R$ 149/mês</h4>
+              <p class="text-secondary">Melhor ponto de venda: dashboard, comparativos, CRM e recorrência.</p>
+              <div class="metric-chip">Alunos ilimitados</div>
+              <div class="metric-chip">Fotos comparativas</div>
+              <div class="metric-chip">Dashboard completo</div>
+              <div class="metric-chip">Assinatura digital</div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="glass-card h-100">
+              <div class="status-pill status-good mb-3">Studio / White-label</div>
+              <h4 class="fw-bold">Sob consulta</h4>
+              <p class="text-secondary">Para redes, boxes e estúdios com equipes, múltiplos profissionais e identidade própria.</p>
+              <div class="metric-chip">Multiusuário</div>
+              <div class="metric-chip">Multi-tenant</div>
+              <div class="metric-chip">Subdomínio customizado</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="roadmap">
+        <div class="section-header">
+          <div>
+            <h3>Escalabilidade do produto</h3>
+            <p>O mockup já foi pensado para crescer sem virar bagunça, milagre raro em software humano.</p>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="glass-card h-100">
+              <h5 class="fw-bold mb-3">Módulos sugeridos</h5>
+              <div class="metric-chip">Tenant por personal</div>
+              <div class="metric-chip">Usuários auxiliares</div>
+              <div class="metric-chip">Agenda</div>
+              <div class="metric-chip">Treinos</div>
+              <div class="metric-chip">Avaliação física</div>
+              <div class="metric-chip">Avaliação postural</div>
+              <div class="metric-chip">Anamnese</div>
+              <div class="metric-chip">Nutrição integrada</div>
+              <div class="metric-chip">Checkout recorrente</div>
+              <div class="metric-chip">App do aluno</div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="glass-card h-100">
+              <h5 class="fw-bold mb-3">Arquitetura comercial</h5>
+              <ul class="text-secondary mb-0" style="line-height:1.9; padding-left:1.2rem;">
+                <li>Landing page pública com branding do personal</li>
+                <li>Painel privado por tenant</li>
+                <li>Banco segregado por organização</li>
+                <li>Permissões por perfil: admin, avaliador, recepção</li>
+                <li>Exportação PDF premium com logo própria</li>
+                <li>Painéis comparativos com foco em retenção do aluno</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="mobileMenu">
+    <div class="offcanvas-header border-bottom border-secondary-subtle">
+      <h5 class="offcanvas-title fw-bold">Davi Alves Performance</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <a class="nav-link-custom active" href="#dashboard">Dashboard</a>
+      <a class="nav-link-custom" href="#avaliacao">Nova avaliação</a>
+      <a class="nav-link-custom" href="#comparativo">Comparativos</a>
+      <a class="nav-link-custom" href="#postural">Postural</a>
+      <a class="nav-link-custom" href="#clientes">Alunos</a>
+      <a class="nav-link-custom" href="#planos">Planos</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

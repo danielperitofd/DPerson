@@ -1,0 +1,49 @@
+﻿{% extends "base.html" %}
+{% block title %}Usuarios | Davi Alves SaaS{% endblock %}
+{% block content %}
+  <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+    <div>
+      <span class="list-chip">Usuarios</span>
+      <h1 class="h2 fw-bold mt-2">Equipe da tenant ativa</h1>
+      <p class="text-muted mb-0">Controle administradores e staff com isolamento por tenant.</p>
+    </div>
+    <a href="{% url 'accounts:tenant_user_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>Novo usuario</a>
+  </div>
+  <div class="table-card p-4">
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Contato</th>
+            <th>Perfil</th>
+            <th>Status</th>
+            <th class="text-end">Acoes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for membership in memberships %}
+            <tr>
+              <td>
+                <div class="fw-bold">{{ membership.user.full_name|default:membership.user.username }}</div>
+                <div class="text-muted small">@{{ membership.user.username }}</div>
+              </td>
+              <td>{{ membership.user.email|default:"-" }}</td>
+              <td>
+                <span class="badge badge-soft">{{ membership.get_role_display }}</span>
+                {% if membership.is_default %}<div class="small text-muted mt-1">Acesso padrao</div>{% endif %}
+              </td>
+              <td><span class="badge {% if membership.is_active and membership.user.is_active %}text-bg-success{% else %}text-bg-secondary{% endif %}">{% if membership.is_active and membership.user.is_active %}Ativo{% else %}Inativo{% endif %}</span></td>
+              <td class="text-end">
+                <a href="{% url 'accounts:tenant_user_update' membership.pk %}" class="action-icon icon-edit"><i class="bi bi-pencil-square"></i></a>
+                <a href="{% url 'accounts:tenant_user_delete' membership.pk %}" class="action-icon icon-delete"><i class="bi bi-trash3"></i></a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" class="text-muted">Nenhum usuario vinculado a tenant ativa.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,368 @@
+CRIAÇÂO DA LOGO animada NO META IA
+
+Create a cinematic Hollywood-style logo animation for a fitness brand called "Davi Alves".
+
+Scene starts inside a dark, high-end gym at night. 
+Low lighting, with dramatic shadows, fog, and dust particles floating in the air.
+
+Camera slowly moves through the gym:
+passing dumbbells, barbells, weight plates, and a bench press.
+
+Sound design:
+deep bass hits, metal clanking, subtle breathing sounds.
+
+Suddenly, a strong impact sound echoes.
+
+From the darkness, glowing orange energy lines begin forming in the air, like molten metal.
+
+The energy shapes start assembling into a powerful "DA" monogram with a muscular arm design.
+
+Behind it, a metallic shield forms piece by piece, with sparks and glowing edges.
+
+The logo becomes fully solid, metallic, and illuminated with orange and gold highlights.
+
+Camera slowly zooms in.
+
+Final moment:
+the name "DAVI ALVES" appears below in bold, clean typography.
+
+Add subtle smoke, light rays, and cinematic glow.
+
+Style:
+hyper-realistic, dramatic lighting, ultra detailed, Hollywood trailer quality.
+
+Aspect ratio: 16:9
+Duration: 6–10 seconds
+
+Include a brief moment where a silhouette of a muscular athlete trains in slow motion before transforming into the logo.
+
+=============================================================================
+PROMPT do SITE
+=============================================================================
+atravez desse relatório consegue montar um mokup em html, bootstrap e css pra eu avaliar como seria um site SaaS multi-tenant para vender para personais de forma arrazador e escalável, responsivo com menu sanduiche quando necessario para se igualhar a essa logo que vc fez pra meu irmão que ficou top? Na parte que ele faz avaliação física dos alunos gostaria que você se baseasse nas informações contidas nesse arquivo em anexo e dele crie formulários que sejam pertinentes para inserção de dados que uma vez calculados gerem o resultado como encontrado no relatorio em anexo e que após inserção já se tenha um dashboard digno de filme com muitas indicações de oscars.. 
+-----------------------------------------------------------------------------
+
+O PROMPT 
+
+Quero que você atue como um engenheiro de software sênior especialista em Django, Python, Bootstrap 5, HTML, CSS e JavaScript, construindo um sistema SaaS multi-tenant profissional, escalável, responsivo e com visual comercial premium voltado para personal trainers.
+
+OBJETIVO GERAL
+Criar a base inicial de um sistema SaaS multi-tenant para venda a personais, estúdios e pequenas equipes, com foco em:
+- gestão de alunos
+- avaliação física
+- avaliação postural
+- dashboards visuais de evolução
+- relatórios
+- arquitetura pronta para escalar
+
+A aplicação deve começar com SQLite para facilitar o desenvolvimento local, mas toda a arquitetura, models, services, settings e organização do projeto devem ser pensadas para futura migração completa para PostgreSQL sem retrabalho estrutural.
+
+STACK
+- Python
+- Django
+- SQLite inicialmente
+- Bootstrap 5
+- HTML5
+- CSS3
+- JavaScript vanilla quando necessário
+- Estrutura pronta para futura migração para PostgreSQL
+- Template base responsivo
+- Sidebar com menu sanduíche em telas menores
+- CRUDs padronizados
+- Código limpo, reutilizável e organizado por apps
+
+DIRETRIZ DE ARQUITETURA
+O sistema deve nascer multi-tenant.
+Preciso de uma arquitetura onde exista:
+1. Um superusuário global master staff
+2. Tenants (cada tenant representa um personal, estúdio ou empresa cliente)
+3. Usuários vinculados a tenants
+4. Separação lógica segura entre dados de tenants
+5. Estrutura preparada para expansão futura de permissões por perfil
+
+IMPORTANTE:
+- O sistema deve impedir vazamento de dados entre tenants
+- Toda listagem, formulário, consulta e dashboard deve respeitar o tenant ativo
+- O tenant deve ser associado aos dados centrais do sistema
+- O código precisa ser escrito de forma clara e sustentável
+
+SUPERUSUÁRIO INICIAL
+Criar automaticamente, via migration, command ou mecanismo confiável de bootstrap inicial, o superusuário/staff master global com:
+- username: danielguspedev
+- senha: Dnov@0380
+
+Esse usuário deve ter acesso total ao sistema e visualizar uma área exclusiva chamada:
+- Admin Tools
+
+ADMIN TOOLS
+Somente o superusuário master poderá visualizar a opção “Admin Tools” na sidebar.
+Essa área deve conter inicialmente:
+- CRUD de tenants
+- ativar/desativar tenant
+- definir usuário administrador inicial da tenant
+- visão geral de tenants cadastradas
+- status da tenant
+- plano/nível da tenant
+- data de criação
+- botão/toggle de ativação
+
+INTERFACE E IDENTIDADE VISUAL
+Quero um layout moderno, profissional e totalmente responsivo.
+A proposta visual é SaaS premium, mas com fundo predominantemente branco.
+
+PALETA DE CORES
+- Fundo principal: branco
+- Verde como cor principal de destaque
+- Cinza para áreas secundárias, bordas, textos suaves e contraste
+- Visual limpo, forte e comercial
+- Deve transmitir confiança, saúde, performance e tecnologia
+
+DIRETRIZES VISUAIS
+- Bootstrap 5 como base
+- Componentes com acabamento refinado
+- Cards modernos
+- Sidebar fixa em telas maiores
+- Menu sanduíche/offcanvas em telas menores
+- Boa hierarquia tipográfica
+- Layout agradável em desktop, tablet e celular
+- Tabelas responsivas
+- Formulários objetivos
+- Dashboard visualmente impactante
+- UX profissional
+
+PADRONIZAÇÃO DOS CRUDS
+Em todos os CRUDs do sistema:
+- ícone de lápis para editar
+- ícone de lixeira para excluir
+- ícone de checked para salvar
+
+Padronizar esses ícones em todas as telas, mantendo consistência visual e usabilidade.
+
+MÓDULOS INICIAIS
+Quero que a aplicação já seja criada com estrutura para os seguintes módulos:
+
+1. AUTENTICAÇÃO E BASE
+- login
+- logout
+- tela inicial
+- dashboard principal
+- controle de tenant ativo
+- controle de permissões
+- sidebar dinâmica conforme perfil
+- layout base
+
+2. TENANTS
+- model Tenant
+- CRUD de tenants
+- status ativo/inativo
+- plano
+- responsável
+- data de criação
+- slug ou identificador
+- vínculo com usuários
+
+3. USUÁRIOS
+- usuários por tenant
+- administrador da tenant
+- staff interno da tenant
+- estrutura preparada para permissões futuras por tela
+
+4. ALUNOS
+- cadastro de alunos
+- listagem
+- busca
+- filtros
+- detalhamento
+- edição
+- exclusão
+- vínculo obrigatório com tenant
+
+5. AVALIAÇÃO FÍSICA
+Criar estrutura de model, form, views, templates e dashboard baseada em avaliação física profissional.
+A tela deve permitir cadastro dos campos principais e gerar resultados calculados automaticamente.
+
+Campos sugeridos:
+- nome do aluno
+- data da avaliação
+- idade
+- peso
+- altura
+- meta de gordura
+- protocolo de avaliação
+- dobras cutâneas
+- perímetros corporais
+- diâmetros ósseos
+- testes físicos
+- observações
+
+A aplicação deve preparar cálculo e exibição de:
+- IMC
+- classificação do IMC
+- RCQ
+- percentual de gordura
+- peso gordo
+- peso magro
+- peso ideal
+- indicadores visuais de desempenho
+
+6. AVALIAÇÃO POSTURAL
+Criar formulário com campos/checklists para avaliação postural.
+Estruturar a tela para comportar:
+- vista lateral
+- vista anterior
+- vista posterior
+- marcações e observações
+- preparação para upload de fotos futuramente
+
+7. DASHBOARD
+O dashboard deve ser digno de um SaaS vendável.
+Quero:
+- cards de indicadores
+- gráfico de evolução
+- blocos de resumo corporal
+- insights automáticos simulados
+- visual moderno
+- layout responsivo
+- área para comparativos futuros
+
+8. RELATÓRIOS
+Preparar a base para relatórios por aluno e por avaliação.
+Não precisa implementar PDF avançado agora, mas a estrutura deve ficar pronta para evolução futura.
+
+MULTI-TENANT
+O agente deve escolher e implementar uma abordagem multi-tenant simples, segura e sustentável para início do projeto.
+Pode ser, por exemplo:
+- tenant via ForeignKey obrigatória nos models de negócio
+- middleware/context processor para tenant ativo
+- filtragem centralizada por tenant
+- mixins utilitários para evitar repetição
+
+O mais importante é:
+- clareza
+- segurança
+- facilidade de manutenção
+- facilidade de futura expansão
+
+BANCO DE DADOS
+Inicialmente usar SQLite.
+Mas o projeto deve ser preparado para futura migração para PostgreSQL com boa prática desde o início:
+- evitar decisões acopladas ao SQLite
+- usar models e constraints compatíveis
+- settings organizados por ambiente se necessário
+- deixar claro onde será feita a futura troca para PostgreSQL
+
+RESPONSIVIDADE
+Todo o sistema deve funcionar muito bem em telas pequenas.
+Exigências:
+- sidebar desktop
+- menu sanduíche em mobile
+- tabelas adaptadas
+- cards reorganizando por breakpoints
+- formulários fluidos
+- botões acessíveis
+- sem layout quebrado em celular
+
+ESTRUTURA DE ENTREGA
+Quero que você gere:
+1. Estrutura inicial do projeto Django
+2. Apps necessárias
+3. Models
+4. Admin
+5. Forms
+6. Views
+7. URLs
+8. Templates
+9. CSS base
+10. Dados iniciais
+11. Criação automática do superusuário master
+12. Sidebar e layout responsivo
+13. CRUD inicial de tenants
+14. CRUD inicial de alunos
+15. Base inicial de avaliação física
+16. Base inicial de avaliação postural
+17. Dashboard inicial
+
+FORMA DE RESPOSTA
+Quero que você trabalhe de forma extremamente prática e organizada.
+
+Ao responder:
+- sempre informe o caminho do arquivo no topo
+- diga exatamente onde encaixar cada bloco
+- use instruções do tipo:
+  - “substitua todo o conteúdo deste arquivo por”
+  - “cole este bloco logo após...”
+  - “cole este bloco antes de...”
+- preserve indentação correta
+- não remova lógica existente sem avisar
+- se precisar alterar algo existente, explique em 1 ou 2 frases o motivo
+- se houver mais de um ajuste, separe por blocos bem identificados
+- quando houver comando de terminal, forneça um comando por vez
+
+IMPORTANTE
+Antes de começar a modificar arquivos, analise a arquitetura ideal do projeto.
+Se necessário, proponha primeiro a estrutura de apps e a estratégia multi-tenant mais adequada antes de gerar os arquivos.
+
+ORGANIZAÇÃO SUGERIDA DE APPS
+Você pode organizar, por exemplo, assim:
+- core
+- accounts
+- tenants
+- alunos
+- avaliacoes
+- dashboard
+
+Mas pode melhorar essa divisão se houver uma estrutura mais adequada.
+
+META FINAL
+Quero sair desta etapa com uma base real, bonita, multi-tenant, escalável, comercialmente forte e pronta para evoluir para um SaaS profissional de personal trainers.
+
+=============================================================================
+A base do SaaS foi criada e está funcional em SQLite, com autenticação, tenant ativo por sessão, CRUD de tenants em Admin Tools, CRUD de alunos, avaliações física/postural e dashboard responsivo usando a logo em static/branding/logo_davialves_personal.png. Os pontos centrais estão em config/settings.py (line 1), apps/tenants/models.py (line 9), apps/core/middleware.py (line 6), apps/assessments/models.py (line 11) e templates/base.html (line 1).
+
+A estratégia multi-tenant ficou em Tenant + TenantMembership + active_tenant na sessão. Todo dado de negócio relevante nasce com ForeignKey obrigatória para tenant e as views filtram pelo tenant ativo. O bootstrap do usuário master foi implementado via post_migrate; o login inicial validado é danielguspedev / Dnov@0380.
+
+Validei com python manage.py check, python manage.py makemigrations accounts tenants students assessments e python manage.py migrate. Também confirmei login, acesso ao dashboard e acesso ao Admin Tools. Para subir localmente, execute:
+
+python manage.py runserver
+===========================================================================
+
+Vou estender a base para gestão de usuários por tenant e permissões por perfil de forma coerente com a arquitetura já criada. Primeiro verifico os arquivos atuais de accounts, tenants e navegação para encaixar o CRUD sem quebrar o fluxo existente.
+
+Vou acrescentar um eixo de permissão real agora: superuser, tenant admin e tenant staff, com verificação centralizada por tela e um CRUD de usuários vinculado à tenant ativa. Isso mantém a base simples hoje e já deixa o ponto de expansão preparado para regras mais finas depois.
+
+A parte de usuários já foi escrita, mas ainda vou ajustar duas coisas antes de validar: a checagem de permissão precisa ocorrer antes da execução da view e o fluxo de desativação não pode depender de um retorno improvisado. Depois disso eu conecto a navegação e testo o CRUD fim a fim.
+
+-----------------------------------------------------------------------------
+
+Implementei o módulo de usuários por tenant com permissão por perfil centralizada. O núcleo está em apps/core/permissions.py (line 1), a proteção das telas em apps/core/mixins.py (line 1), o CRUD em apps/accounts/views.py (line 28) e o formulário de criação/edição em apps/accounts/forms.py (line 21).
+
+Também conectei a navegação para mostrar Usuarios apenas quando o usuário da tenant pode gerenciar equipe, em templates/partials/sidebar_content.html (line 21), e criei as telas de listagem e edição em templates/accounts/user_list.html (line 1) e templates/accounts/user_form.html (line 1). Ajustei ainda o dashboard para não quebrar no modo tenant em templates/dashboard/home.html (line 1).
+
+A regra ficou assim: superuser acessa tudo, tenant admin gerencia usuários/alunos/avaliações/relatórios, e tenant staff acessa operação, mas recebe 403 em gestão de usuários. Validei com python manage.py check e testes reais de acesso para master e staff. Para seguir, basta subir o projeto com:
+
+python manage.py runserver
+
+-----------------------------------------------------------------------------
+
+Vou estender o Admin Tools para o master provisionar e gerenciar a equipe de qualquer tenant sem depender do contexto operacional da própria tenant. Primeiro verifico o estado atual de tenants e accounts para encaixar isso sem duplicar lógica desnecessariamente.
+
+Vou adicionar uma área de equipe dentro de cada tenant no Admin Tools, reaproveitando o formulário de usuário para manter consistência e evitar regras duplicadas. O master vai poder listar, criar, editar e desativar usuários de qualquer tenant diretamente por tenant_id, sem depender de active_tenant.
+
+Agora vou conectar a interface do Admin Tools: botão de equipe na listagem de tenants e telas dedicadas para listar/provisionar equipe por tenant. Depois eu valido o fluxo real com o usuário master.
+
+Vou validar o fluxo master completo agora: criar tenant de teste, abrir equipe no Admin Tools, provisionar usuário via formulário/URL e confirmar que tudo responde corretamente.
+
+A criação do usuário pelo Admin Tools funcionou, mas o primary_admin da tenant não refletiu como deveria. Vou inspecionar esse ponto agora e corrigir, porque ele é parte importante do provisionamento master que você pediu.
+
+O primary_admin estava correto no banco; a leitura anterior ficou inconsistente por conta do estado do teste. Vou limpar a tenant e o usuário temporários usados na validação para deixar o projeto entregue sem dados de teste.
+
+-----------------------------------------------------------------------------
+
+Adicionei o provisionamento master de equipe dentro do Admin Tools. Agora o superusuário consegue entrar em qualquer tenant e listar, criar, editar e desativar usuários diretamente por tenant, sem depender do active_tenant. O núcleo está em apps/tenants/views.py (line 1) e as rotas novas em apps/tenants/urls.py (line 1).
+
+Também conectei a interface com botão de equipe na lista de tenants em templates/tenants/tenant_list.html (line 1), uma tela de equipe por tenant em templates/tenants/tenant_team_list.html (line 1) e o formulário master de provisionamento em templates/tenants/tenant_team_form.html (line 1). Reaproveitei o mesmo TenantUserForm para manter a regra de criação/edição consistente em apps/accounts/forms.py (line 21).
+
+Validei com python manage.py check e testei o fluxo real de acesso master e criação de usuário via Admin Tools.
+
+Se quiser, no próximo passo eu implemento permissões mais granulares por tela/ação, com matriz visual de permissões para cada usuário da tenant.
+-----------------------------------------------------------------------------

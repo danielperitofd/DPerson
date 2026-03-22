@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="section-header mb-4">
+    <div class="section-header__content">
+      <span class="list-chip">Alunos</span>
+      <h1 class="h2 fw-bold section-title">Gestao de alunos</h1>
+      <p class="section-copy">Busque, filtre e acompanhe a base ativa da tenant com leitura rapida e operacao direta.</p>
+    </div>
+    <a href="{% url 'students:create' %}" class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>Novo aluno</a>
+  </div>
+
+  <div class="table-card p-4">
+    <div class="toolbar-card form-section-spacer mb-3">
+      <form class="filter-grid">
+        <div><input type="text" name="q" value="{{ request.GET.q }}" class="form-control" placeholder="Buscar por nome, e-mail ou telefone"></div>
+        <div><select name="status" class="form-select"><option value="">Todos os status</option><option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>Ativos</option><option value="inactive" {% if request.GET.status == 'inactive' %}selected{% endif %}>Inativos</option></select></div>
+        <div class="d-grid"><button class="btn btn-outline-primary"><i class="bi bi-search me-2"></i>Buscar</button></div>
+      </form>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead><tr><th>Aluno</th><th>Contato</th><th>Objetivo</th><th>Status</th><th class="text-end">Acoes</th></tr></thead>
+        <tbody>
+          {% for student in students %}
+            <tr>
+              <td><a href="{% url 'students:detail' student.pk %}" class="fw-bold text-decoration-none">{{ student.full_name }}</a><div class="text-muted small">{{ student.birth_date|date:"d/m/Y" }}</div></td>
+              <td>{{ student.phone|default:"-" }}</td>
+              <td>{{ student.objective|default:"-" }}</td>
+              <td><span class="badge {% if student.is_active %}text-bg-success{% else %}text-bg-secondary{% endif %}">{{ student.is_active|yesno:"Ativo,Inativo" }}</span></td>
+              <td class="text-end"><a href="{% url 'students:update' student.pk %}" class="action-icon icon-edit"><i class="bi bi-pencil-square"></i></a><a href="{% url 'students:delete' student.pk %}" class="action-icon icon-delete"><i class="bi bi-trash3"></i></a></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" class="text-muted">Nenhum aluno encontrado para a tenant ativa.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

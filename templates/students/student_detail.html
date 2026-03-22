@@ -1,0 +1,28 @@
+﻿{% extends "base.html" %}
+{% block content %}
+  <div class="row g-4">
+    <div class="col-xl-4">
+      <div class="panel-card p-4 h-100">
+        <span class="list-chip">Aluno</span>
+        <h1 class="h3 fw-bold mt-3">{{ student.full_name }}</h1>
+        <div class="text-muted mb-4">{{ student.objective|default:"Objetivo ainda nao informado." }}</div>
+        <div class="d-grid gap-3">
+          <div><strong>Nascimento:</strong> {{ student.birth_date|date:"d/m/Y" }}</div>
+          <div><strong>Telefone:</strong> {{ student.phone|default:"-" }}</div>
+          <div><strong>E-mail:</strong> {{ student.email|default:"-" }}</div>
+          <div><strong>Altura:</strong> {{ student.height_cm }} cm</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8">
+      <div class="table-card p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h4 fw-bold mb-0">Avaliacoes fisicas</h2><a href="{% url 'assessments:physical_create' %}" class="btn btn-outline-primary btn-sm">Nova avaliacao</a></div>
+        <div class="table-responsive"><table class="table"><thead><tr><th>Data</th><th>IMC</th><th>% Gordura</th><th>RCQ</th></tr></thead><tbody>{% for item in student.physical_assessments.all|slice:":5" %}<tr><td>{{ item.assessed_at|date:"d/m/Y" }}</td><td>{{ item.bmi }}</td><td>{{ item.body_fat_percentage }}</td><td>{{ item.waist_hip_ratio }}</td></tr>{% empty %}<tr><td colspan="4" class="text-muted">Sem avaliacoes fisicas.</td></tr>{% endfor %}</tbody></table></div>
+      </div>
+      <div class="table-card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h4 fw-bold mb-0">Avaliacoes posturais</h2><a href="{% url 'assessments:postural_create' %}" class="btn btn-outline-primary btn-sm">Nova avaliacao</a></div>
+        <div class="table-responsive"><table class="table"><thead><tr><th>Data</th><th>Vista lateral</th><th>Vista anterior</th><th>Vista posterior</th></tr></thead><tbody>{% for item in student.postural_assessments.all|slice:":5" %}<tr><td>{{ item.assessed_at|date:"d/m/Y" }}</td><td>{{ item.lateral_view|truncatechars:40 }}</td><td>{{ item.anterior_view|truncatechars:40 }}</td><td>{{ item.posterior_view|truncatechars:40 }}</td></tr>{% empty %}<tr><td colspan="4" class="text-muted">Sem avaliacoes posturais.</td></tr>{% endfor %}</tbody></table></div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
